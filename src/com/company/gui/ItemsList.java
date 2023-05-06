@@ -31,10 +31,13 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.plaf.Border;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.util.Base64;
+import com.mycompany.entities.Categorie_Items;
 import com.mycompany.entities.Item;
+import static com.mycompany.utils.Statics.BASE_URL;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +52,7 @@ import java.util.Map;
 public class ItemsList extends Form {
 
     ArrayList<Item> items = new ArrayList<>();
+    ArrayList<Categorie_Items> catitems = new ArrayList<>();
 
     public ItemsList(Form previous) {
 
@@ -62,7 +66,7 @@ public class ItemsList extends Form {
                 List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                 for (Map<String, Object> item : itemss) {
 
-                    Item itemx = new Item((String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), (Integer) item.get("imageurl"), (Integer) item.get("id_categorie"), (Integer) item.get("id_echange"), (Integer) item.get("likes"), (Integer) item.get("dislikes"));
+                    Item itemx = new Item((String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue());
                     items.add(itemx);
 
                 }
@@ -71,9 +75,32 @@ public class ItemsList extends Form {
                 }
             }
         };
-        request.setUrl("http://127.0.0.1:8000/item/mobile/list");
+
+        ConnectionRequest request2 = new ConnectionRequest() {
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+
+                JSONParser parser = new JSONParser();
+                System.out.println(parser);
+                Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
+                List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("itemcats");
+                for (Map<String, Object> item : itemss) {
+
+                    Categorie_Items itemx = new Categorie_Items(((Double) item.get("id")).intValue(), (String) item.get("nom_categorie"));
+                    catitems.add(itemx);
+
+                }
+                for (Item i : items) {
+                    addItem(i);
+                }
+            }
+        };
+        request.setUrl(BASE_URL + "/item/mobile/list");
         request.setHttpMethod("GET");
+        request2.setUrl(BASE_URL + "/item/mobile/listc");
+        request2.setHttpMethod("GET");
         NetworkManager.getInstance().addToQueue(request);
+        NetworkManager.getInstance().addToQueue(request2);
 
         getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
             previous.showBack();
@@ -82,7 +109,10 @@ public class ItemsList extends Form {
         getToolbar().addCommandToRightBar("Add", null, (ActionListener) (ActionEvent evt) -> {
             Form f2 = new Form("Ajout", BoxLayout.y());
             TextField tfLibelle = new TextField();
-            ComboBox<String> cbCategorie = new ComboBox<>("Random Values", "Value 1", "Value 2", "Value 3", "Value 4");
+            ComboBox<String> cbCategorie = new ComboBox<>();
+            for (Categorie_Items i : catitems) {
+                cbCategorie.addItem(i.getNom_categorie());
+            }
             TextArea taDescription = new TextArea();
             ButtonGroup bgType = new ButtonGroup();
             RadioButton rb1 = new RadioButton("Physique Neuf");
@@ -132,7 +162,7 @@ public class ItemsList extends Form {
                 Item.type stType = Item.type.valueOf(strType);
                 Item.state stEtat = Item.state.valueOf(strEtat);
 
-                Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, "C:/Home/Pictures/Covers/Game Covers/3D Dot Game Heroes Cover.jpg/", 0, 0, 0, 0, 0);
+                Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, "", 0, 0, 0, 0, 0);
                 items.add(i);
                 removeAll();
                 for (Item ix : items) {
@@ -151,22 +181,40 @@ public class ItemsList extends Form {
     public void addItem(Item item) {
         ImageViewer img = null;
         Container C1 = new Container(new BoxLayout(BoxLayout.X_AXIS));
-        String imageUrl = item.getImageurl(); // replace with your image URL
+        String imageUrl = item.getImageurl();
 
-        EncodedImage encodedImage;
+        EncodedImage encodedImage = null;
         if (imageUrl.startsWith("data:image")) {
-            // base64 encoded image
+
             String imageData = imageUrl.substring(imageUrl.indexOf(',') + 1);
             byte[] decodedBytes = Base64.decode(imageData.getBytes());
             encodedImage = EncodedImage.create(decodedBytes);
- 
+        } else {
+            encodedImage = URLImage.createToStorage(
+                    EncodedImage.createFromImage(Image.createImage(300, 300, 0x000000), true),
+                    imageUrl,
+                    imageUrl,
+                    URLImage.RESIZE_SCALE_TO_FILL);
+        }
 
         img = new ImageViewer(encodedImage);
         img.setPreferredSize(new Dimension(300, 300));
 
         Container C2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         Label lLibelle = new Label(item.getLibelle());
-        Label lCategorie = new Label(item.getDescription());
+
+        StringBuilder sb = new StringBuilder();
+        for (Categorie_Items x : catitems) {
+            if (item.getId_categorie() == x.getId_categorie()) {
+                if (sb.length() > 0) {
+                    sb.append(", ");
+                }
+                sb.append(x.getNom_categorie());
+            }
+        }
+        String result = sb.toString();
+
+        Label lCategorie = new Label(result);
         Label lTypeEtat = new Label();
         if (item.getType() == Item.type.Physique) {
             lTypeEtat = new Label(item.getType().toString() + " " + item.getEtat().toString());
@@ -185,8 +233,10 @@ public class ItemsList extends Form {
         C2.add(lTypeEtat);
         C1.add(img);
         C1.add(C2);
-        C1.setLeadComponent(lLibelle);
+        C1.setLeadComponent(img);
         add(C1);
+
+        add(new Label("─────────────────────────────────────────"));
         refreshTheme();
 
     }
