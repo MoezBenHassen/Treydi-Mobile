@@ -6,6 +6,9 @@
 package com.company.gui;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.ComboBox;
@@ -30,9 +33,14 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
+import com.codename1.util.Base64;
 import com.mycompany.entities.Item;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,11 +48,32 @@ import java.util.ArrayList;
  */
 public class ItemsList extends Form {
 
+    ArrayList<Item> items = new ArrayList<>();
+
     public ItemsList(Form previous) {
 
-        ArrayList<Item> items = new ArrayList<>();
-        Item item1 = new Item("Playstation3", "desc", Item.type.Physique, Item.state.Neuf, "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Sony-PlayStation-3-4001B-wController-L.jpg/250px-Sony-PlayStation-3-4001B-wController-L.jpg", 0, 0, 0, 0, 0);
-        items.add(item1);
+        ConnectionRequest request = new ConnectionRequest() {
+            @Override
+            protected void readResponse(InputStream input) throws IOException {
+
+                JSONParser parser = new JSONParser();
+                System.out.println(parser);
+                Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
+                List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
+                for (Map<String, Object> item : itemss) {
+
+                    Item itemx = new Item((String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), (Integer) item.get("imageurl"), (Integer) item.get("id_categorie"), (Integer) item.get("id_echange"), (Integer) item.get("likes"), (Integer) item.get("dislikes"));
+                    items.add(itemx);
+
+                }
+                for (Item i : items) {
+                    addItem(i);
+                }
+            }
+        };
+        request.setUrl("http://127.0.0.1:8000/item/mobile/list");
+        request.setHttpMethod("GET");
+        NetworkManager.getInstance().addToQueue(request);
 
         getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
             previous.showBack();
@@ -77,13 +106,33 @@ public class ItemsList extends Form {
             f2.add(rb2);
             f2.add(rb3);
             f2.add(rb4);
-            f2.add(new Label("----------"));
             f2.add(btn);
-          
+
             f2.show();
 
             btn.addActionListener((ActionListener) (ActionEvent evt1) -> {
-                Item i = new Item(tfLibelle.getText(), taDescription.getText(), Item.type.Physique, Item.state.Neuf, "C:/Home/Pictures/Covers/Game Covers/3D Dot Game Heroes Cover.jpg/", 0, 0, 0, 0, 0);
+                String strType = "Physique";
+                String strEtat = "Null";
+                if (rb1.isSelected()) {
+                    strType = "Physique";
+                    strEtat = "Neuf";
+                } else if (rb2.isSelected()) {
+                    strType = "Physique";
+                    strEtat = "Occasion";
+                } else if (rb3.isSelected()) {
+                    strType = "Virtuelle";
+                    strEtat = "Null";
+                } else if (rb4.isSelected()) {
+                    strType = "Service";
+                    strEtat = "Null";
+                } else {
+                    strType = "Physique";
+                    strEtat = "Null";
+                }
+                Item.type stType = Item.type.valueOf(strType);
+                Item.state stEtat = Item.state.valueOf(strEtat);
+
+                Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, "C:/Home/Pictures/Covers/Game Covers/3D Dot Game Heroes Cover.jpg/", 0, 0, 0, 0, 0);
                 items.add(i);
                 removeAll();
                 for (Item ix : items) {
@@ -104,28 +153,39 @@ public class ItemsList extends Form {
         Container C1 = new Container(new BoxLayout(BoxLayout.X_AXIS));
         String imageUrl = item.getImageurl(); // replace with your image URL
 
-// create an Image instance from the URL
-        Image image = URLImage.createToStorage(
-                EncodedImage.createFromImage(Image.createImage(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight(), 0x000000), true),
-                "cacheKey",
-                imageUrl,
-                URLImage.RESIZE_SCALE_TO_FILL);
-        img = new ImageViewer(image);
+        EncodedImage encodedImage;
+        if (imageUrl.startsWith("data:image")) {
+            // base64 encoded image
+            String imageData = imageUrl.substring(imageUrl.indexOf(',') + 1);
+            byte[] decodedBytes = Base64.decode(imageData.getBytes());
+            encodedImage = EncodedImage.create(decodedBytes);
+ 
+
+        img = new ImageViewer(encodedImage);
         img.setPreferredSize(new Dimension(300, 300));
 
         Container C2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-        Label l = new Label(item.getLibelle());
-        Label tel = new Label(item.getDescription());
+        Label lLibelle = new Label(item.getLibelle());
+        Label lCategorie = new Label(item.getDescription());
+        Label lTypeEtat = new Label();
+        if (item.getType() == Item.type.Physique) {
+            lTypeEtat = new Label(item.getType().toString() + " " + item.getEtat().toString());
+            lLibelle.addPointerPressedListener((ActionListener) (ActionEvent evt) -> {
+                Dialog.show(item.getLibelle(), "Categorie : " + lLibelle.getText() + " \n Type : " + item.getType().toString() + " \n Etat : " + item.getEtat().toString() + " \n Description : " + item.getDescription(), "Ok", null);
+            });
+        } else {
+            lLibelle.addPointerPressedListener((ActionListener) (ActionEvent evt) -> {
+                Dialog.show(item.getLibelle(), "Categorie : " + lLibelle.getText() + " \n Type : " + item.getType().toString() + " \n Description : " + item.getDescription(), "Ok", null);
+            });
+            lTypeEtat = new Label(item.getType().toString());
+        }
 
-        l.addPointerPressedListener((ActionListener) (ActionEvent evt) -> {
-            Dialog.show("Contact", "Nom : " + l.getText() + " \n Tel : " + tel.getText(), "Ok", null);
-        });
-
-        C2.add(l);
-        C2.add(tel);
+        C2.add(lLibelle);
+        C2.add(lCategorie);
+        C2.add(lTypeEtat);
         C1.add(img);
         C1.add(C2);
-        C1.setLeadComponent(l);
+        C1.setLeadComponent(lLibelle);
         add(C1);
         refreshTheme();
 
