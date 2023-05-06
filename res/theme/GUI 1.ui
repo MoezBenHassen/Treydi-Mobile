@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="GUI 1" cloudDestinationProperty="GUI 1" layout="BoxLayout" boxLayoutAxis="Y" >
+  <component type="ImageViewer" name="ImageViewer" cloudDestinationProperty="ImageViewer" >
+    <custom name="image" type="com.codename1.ui.Image" value="head.png" />
+  </component>
+  <component type="Container" name="Container1" cloudDestinationProperty="Container1" layout="FlowLayout" flowLayoutFillRows="false" flowLayoutAlign="4" flowLayoutValign="4" >
+    <component type="ImageViewer" name="ImageViewer1" cloudDestinationProperty="ImageViewer1" >
+      <custom name="image" type="com.codename1.ui.Image" value="hand.png" />
+    </component>
+    <component type="ImageViewer" name="ImageViewer2" cloudDestinationProperty="ImageViewer2" >
+      <custom name="image" type="com.codename1.ui.Image" value="body.png" />
+    </component>
+    <component type="ImageViewer" name="ImageViewer3" cloudDestinationProperty="ImageViewer3" >
+      <custom name="image" type="com.codename1.ui.Image" value="hand.png" />
+    </component>
+  </component>
+  <component type="Container" name="Container" cloudDestinationProperty="Container" layout="FlowLayout" flowLayoutFillRows="false" flowLayoutAlign="4" flowLayoutValign="4" >
+    <component type="ImageViewer" name="ImageViewer4" cloudDestinationProperty="ImageViewer4" >
+      <custom name="image" type="com.codename1.ui.Image" value="leg.png" />
+    </component>
+    <component type="ImageViewer" name="ImageViewer5" cloudDestinationProperty="ImageViewer5" >
+      <custom name="image" type="com.codename1.ui.Image" value="leg.png" />
+    </component>
+  </component>
+</component>
