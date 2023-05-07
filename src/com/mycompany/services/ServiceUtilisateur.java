@@ -92,7 +92,7 @@ public class ServiceUtilisateur {
     public void signin(TextField email,TextField password, Resources rs ) {
         
         
-        String url = Statics.BASE_URL+"/mob?email="+email.getText().toString()+"&password="+password.getText().toString();
+        String url = Statics.BASE_URL+"/login/mob?email="+email.getText().toString()+"&password="+password.getText().toString();
         req = new ConnectionRequest(url, false); //false ya3ni url mazlt matba3thtich lel server
         req.setUrl(url);
         
@@ -121,12 +121,7 @@ public class ServiceUtilisateur {
                 
                 SessionManager.setPassowrd(user.get("password").toString());
                 SessionManager.setEmail(user.get("email").toString());
-                
-                //photo 
-                
-                if(user.get("photo") != null)
-                    SessionManager.setPhoto(user.get("photo").toString());
-                
+     
                 
                 if(user.size() >0 ) // l9a user
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
@@ -144,6 +139,9 @@ public class ServiceUtilisateur {
     
          //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
         NetworkManager.getInstance().addToQueueAndWait(req);
+        System.out.println(SessionManager.getEmail());
+        System.out.println(SessionManager.getId());
+        System.out.println(SessionManager.getPassowrd());
     }
     
 

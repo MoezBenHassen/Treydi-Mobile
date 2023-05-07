@@ -19,10 +19,9 @@ public class SessionManager {
     
     // hethom données ta3 user lyt7b tsajlhom fi session  ba3d login 
     private static int id ; 
-    private static String userName ; 
     private static String email; 
     private static String passowrd ;
-    private static String photo;
+
 
     public static Preferences getPref() {
         return pref;
@@ -40,13 +39,6 @@ public class SessionManager {
         pref.set("id",id);//nsajl id user connecté  w na3tiha identifiant "id";
     }
 
-    public static String getUserName() {
-        return pref.get("username",userName);
-    }
-
-    public static void setUserName(String userName) {
-         pref.set("username",userName);
-    }
 
     public static String getEmail() {
         return pref.get("email",email);
@@ -62,14 +54,6 @@ public class SessionManager {
 
     public static void setPassowrd(String passowrd) {
          pref.set("passowrd",passowrd);
-    }
-
-    public static String getPhoto() {
-        return pref.get("photo",photo);
-    }
-
-    public static void setPhoto(String photo) {
-         pref.set("photo",photo);
     }
     
     
