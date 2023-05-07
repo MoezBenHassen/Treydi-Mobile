@@ -3,9 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.services;
+import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
+import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Coupon;
+import com.mycompany.entities.Utilisateur;
+import com.mycompany.utils.Statics;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
 import java.util.Random;
  
 public class CouponService {
@@ -107,4 +117,108 @@ public class CouponService {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return code;
         }
+    
+    
+     public ArrayList<Coupon>MyCoupons() {
+        ArrayList<Coupon> result = new ArrayList<>();
+        
+        String url = Statics.BASE_URL+"/displaycouponuser";
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp ;
+                jsonp = new JSONParser();
+                
+                try {
+                    Map<String,Object>mapCoupons = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+                    System.out.println(mapCoupons);
+                    
+                    List<Map<String,Object>> listOfMaps =  (List<Map<String,Object>>) mapCoupons.get("coupons"); 
+                    System.out.println(listOfMaps);
+                     for(Map<String, Object> obj : listOfMaps) { 
+                        
+                        Coupon c = new Coupon();
+
+                        String objet = (String) obj.get("titre_coupon");
+                        String description = (String) obj.get("description_coupon");
+                        String code = (String) obj.get("code");
+                        String etat = (String) obj.get("etat_coupon");
+                        
+                 
+                        c.setTitre_coupon(objet);
+                        c.setDescription_coupon(description);
+                        c.setCode(code);
+                        c.setEtat_coupon(etat);
+                        result.add(c);
+                    
+                     } 
+                }catch(IOException ex) {
+                   
+                    ex.printStackTrace();
+                }
+            
+            }
+        });
+        
+      NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+        
+        return result;
+        
+        
     }
+     
+     
+      public ArrayList<Utilisateur>Scoreboard() {
+        ArrayList<Utilisateur> result = new ArrayList<>();
+        
+        String url = Statics.BASE_URL+"/displaycouponuser";
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                JSONParser jsonp ;
+                jsonp = new JSONParser();
+                
+                try {
+                    Map<String,Object>mapusers = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+                    System.out.println(mapusers);
+                    
+                    List<Map<String,Object>> listOfMaps =  (List<Map<String,Object>>) mapusers.get("users"); 
+                    System.out.println(listOfMaps);
+                     for(Map<String, Object> obj : listOfMaps) { 
+                        
+                        Utilisateur u = new Utilisateur();
+
+                        String nom = (String) obj.get("nom");
+                        String prenom = (String) obj.get("prenom");
+                        int score = (int) obj.get("score");
+                       
+                       
+                        u.setNom(nom);
+                        u.setPrenom(prenom);
+                        u.setScore(score);
+                      
+                        result.add(u);
+                    
+                     } 
+                }catch(IOException ex) {
+                   
+                    ex.printStackTrace();
+                }
+            
+            }
+        });
+        
+      NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+        
+        return result;
+        
+        
+    }
+    
+    }
+
+        

@@ -19,6 +19,10 @@ public class Coupon {
     private int id_user ;
     private int id_categorie ;
 
+    public Coupon() {
+    }
+
+    
     public Coupon(String titre_coupon, String description_coupon, String etat_coupon, String code, String date_expiration, int id_categorie, int id_user) {
       
         this.titre_coupon = titre_coupon;

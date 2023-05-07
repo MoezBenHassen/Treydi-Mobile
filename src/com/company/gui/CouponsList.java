@@ -5,6 +5,7 @@
 package com.company.gui;
 
 import com.codename1.ui.Button;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -20,46 +21,119 @@ import java.util.ArrayList;
 import com.mycompany.services.CouponService;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Image;
+import com.codename1.ui.plaf.Style;
 import java.io.IOException;
 import com.mycompany.services.QRCODE;
-
+import com.codename1.ui.Container;
+import com.codename1.ui.Form;
+import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.BoxLayout;
+import com.mycompany.entities.Utilisateur;
+import java.util.ArrayList;
 
 /**
  *
  * @author Kal
  */
-public class CouponsList extends Form{
-    
-    
-  public CouponsList(Form previous) {
-     setTitle("Choisir un coupon");
+public class CouponsList extends Form {
+
+    public CouponsList(Form previous) {
+        setTitle("Choisir un coupon");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
-            // handle click event
-        });
 
-    
+        Button CM = new Button("Coupon Mensuel");
+        Button CS = new Button("Coupon Special");
+        Button CE = new Button("Coupon Exclusif");
 
-    Button CM = new Button("Coupon Mensuel");
-    Button CS = new Button("Coupon Special");
-    Button CE = new Button("Coupon Exclusif");
-   
-    
-      Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         card.getStyle().setBgColor(0xFFFFFF);
         card.getStyle().setBgTransparency(255);
         card.getStyle().setMargin(5, 5, 0, 0);
         card.getStyle().setPadding(10, 10, 10, 10);
         card.getStyle().setBorder(
-         Border.createLineBorder(2, 0xCCCCCC)
+                Border.createLineBorder(2, 0xCCCCCC)
         );
-        
+
         card.add(CM);
         card.add(CS);
         card.add(CE);
 
         add(card);
-  
+
+        Container centerContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        centerContainer.getStyle().setAlignment(Component.CENTER);
+        Button scoreboardButton = new Button("Scoreboard");
+        Button mycoupons = new Button("Mes Coupons");
+        Container horizontalContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+        horizontalContainer.add(scoreboardButton);
+        horizontalContainer.add(mycoupons);
+        centerContainer.add(horizontalContainer);
+        add(centerContainer);
+
+        mycoupons.addActionListener((ActionListener) (ActionEvent evt1) -> {
+            Form newForm = new Form();
+            CouponService cs = new CouponService();
+            ArrayList<Coupon> coupons = cs.MyCoupons();
+            Container cardsContainer = new Container();
+
+            // Add each coupon as a separate card
+            for (Coupon coupon : coupons) {
+                Container card1 = new Container(new BorderLayout());
+                card1.getStyle().setMarginUnit(Style.UNIT_TYPE_DIPS);
+                card1.getStyle().setMarginTop(10);
+
+                Label title = new Label(coupon.getTitre_coupon());
+                title.getStyle().setFgColor(0x007aff);
+                card1.add(BorderLayout.NORTH, title);
+
+                Label description = new Label(coupon.getDescription_coupon());
+                card1.add(BorderLayout.CENTER, description);
+
+                Label date_expiration = new Label(coupon.getDate_expiration());
+                date_expiration.getStyle().setFgColor(0x007aff);
+                card1.add(BorderLayout.WEST, date_expiration);
+
+                Label code = new Label(coupon.getCode());
+                code.getStyle().setFgColor(0x007aff);
+                card1.add(BorderLayout.EAST, code);
+
+                cardsContainer.add(card1);
+            }
+
+            newForm.getContentPane().add(cardsContainer);
+            newForm.show();
+        });
+
+        scoreboardButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
+            Form newForm = new Form();
+            CouponService cs = new CouponService();
+            ArrayList<Utilisateur> users = cs.Scoreboard();
+            Container cardsContainer = new Container();
+
+            // Add each coupon as a separate card
+            for (Utilisateur user : users) {
+                Container card1 = new Container(new BorderLayout());
+                card1.getStyle().setMarginUnit(Style.UNIT_TYPE_DIPS);
+                card1.getStyle().setMarginTop(10);
+
+                Label nom = new Label(user.getNom());
+                nom.getStyle().setFgColor(0x007aff);
+                card1.add(BorderLayout.NORTH, nom);
+
+                Label prenom = new Label(user.getPrenom());
+                card1.add(BorderLayout.CENTER, prenom);
+
+                Label score = new Label(String.valueOf(user.getScore()));
+                score.getStyle().setFgColor(0x007aff);
+                card1.add(BorderLayout.EAST, score);
+
+                cardsContainer.add(card1);
+            }
+
+            newForm.getContentPane().add(cardsContainer);
+            newForm.show();
+        });
+      
 
     
     CouponService cs= new CouponService();
@@ -78,6 +152,7 @@ public class CouponsList extends Form{
     String code= cs.affecterCouponSpecial();    
     if(code!=null) {
         Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
+        showQRCode(code); 
     } else {
         Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
     }
@@ -87,6 +162,7 @@ CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
     String code= cs.affecterCouponExclusif();
     if(code!=null){
         Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
+        showQRCode(code); 
     } else {
         Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
     }
@@ -101,6 +177,12 @@ CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
     Form qrCodeForm = new Form("QR Code");
     qrCodeForm.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
     
+    
+    Label qrCodeDataLabel = new Label("Votre coupon est: " + qrCodeData);
+    qrCodeForm.add(qrCodeDataLabel);
+      Style style = qrCodeDataLabel.getUnselectedStyle();
+    style.setFgColor(0x8B008B); // Set the color to purple
+    qrCodeDataLabel.setUnselectedStyle(style);
     Label qrCodeLabel = new Label();
   
         // Generate QR code image and set it to the label
@@ -110,6 +192,15 @@ CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
   
     qrCodeForm.add(qrCodeLabel);
     qrCodeForm.show();
+}
+
+   
+  
+  
+  
+  
+  private void showcoupons() {
+    
 }
 
 }
