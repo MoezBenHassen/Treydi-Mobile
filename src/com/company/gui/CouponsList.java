@@ -14,9 +14,15 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
+import com.codename1.ui.plaf.Border;
 import com.mycompany.entities.Coupon;
 import java.util.ArrayList;
 import com.mycompany.services.CouponService;
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Image;
+import java.io.IOException;
+import com.mycompany.services.QRCODE;
+
 
 /**
  *
@@ -26,47 +32,84 @@ public class CouponsList extends Form{
     
     
   public CouponsList(Form previous) {
-    ArrayList<Coupon> coupons = new ArrayList<>();
-    getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
-        previous.showBack();
-    });
+     setTitle("Choisir un coupon");
+        setLayout(new BoxLayout(BoxLayout.Y_AXIS));
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
+            // handle click event
+        });
 
-    Form f = new Form("Transformation", BoxLayout.y());
+    
 
-    // Create container and label for title
-    Container titleContainer = new Container(new FlowLayout(CENTER));
-      Label title = new Label("Transformer votre score");
-    title.getStyle().setFgColor(0x000000);
-    titleContainer.add(title);
-    f.add(titleContainer);
-
-    // Create container for buttons
-    Container buttonsContainer = new Container(new GridLayout(1, 3));
     Button CM = new Button("Coupon Mensuel");
     Button CS = new Button("Coupon Special");
     Button CE = new Button("Coupon Exclusif");
-    buttonsContainer.addAll(CM, CS, CE);
-    f.add(buttonsContainer);
+   
+    
+      Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        card.getStyle().setBgColor(0xFFFFFF);
+        card.getStyle().setBgTransparency(255);
+        card.getStyle().setMargin(5, 5, 0, 0);
+        card.getStyle().setPadding(10, 10, 10, 10);
+        card.getStyle().setBorder(
+         Border.createLineBorder(2, 0xCCCCCC)
+        );
+        
+        card.add(CM);
+        card.add(CS);
+        card.add(CE);
 
-    // Center the buttons container
-    buttonsContainer.getAllStyles().setMarginTop(CENTER);
+        add(card);
+  
+
     
     CouponService cs= new CouponService();
 
     CM.addActionListener((ActionListener) (ActionEvent evt1) -> {
-        Coupon c = new Coupon("Coupon Mensuel Mai", "50% sur la livraison", "VALID", "CasCouponMai","2023-06-01",1,1 );
-        cs.ajoutCoupon(c);
-    });
-    CS.addActionListener((ActionListener) (ActionEvent evt1) -> {
-        Coupon c = new Coupon("Coupon Special Mai", "100% sur la livraison", "VALID", "SpecCouponMai","2023-06-01",2,1 );
-        cs.ajoutCoupon(c);
-    });
-    CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
-        Coupon c = new Coupon("Coupon Exclusif Mai", "Carte de recharge gratuite", "VALID", "ExcluCouponMai","2023-06-01",3,1 );
-        cs.ajoutCoupon(c);
-    });
+    String code= cs.affecterCouponCasual();
+    if(code!=null){
+        Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
+        showQRCode(code); 
+    } else {
+        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
+    }
+});
 
-    f.show();
+    CS.addActionListener((ActionListener) (ActionEvent evt1) -> {
+    String code= cs.affecterCouponSpecial();    
+    if(code!=null) {
+        Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
+    } else {
+        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
+    }
+});
+
+CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
+    String code= cs.affecterCouponExclusif();
+    if(code!=null){
+        Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
+    } else {
+        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
+    }
+});
+
+
+
+}
+  
+  private void showQRCode(String qrCodeData) {
+    QRCODE qc= new QRCODE();
+    Form qrCodeForm = new Form("QR Code");
+    qrCodeForm.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
+    
+    Label qrCodeLabel = new Label();
+  
+        // Generate QR code image and set it to the label
+        Image qrCodeImage = qc.getQrCode(qrCodeData);
+        qrCodeLabel.setIcon(qrCodeImage);
+   
+  
+    qrCodeForm.add(qrCodeLabel);
+    qrCodeForm.show();
 }
 
 }
