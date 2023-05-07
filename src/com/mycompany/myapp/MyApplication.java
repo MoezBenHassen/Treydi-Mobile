@@ -24,6 +24,11 @@ public class MyApplication {
     private Form current;
     private Resources theme;
 
+    public static void main(String[] args) {
+    MyApplication app = new MyApplication();
+    app.init(args);
+    app.start();
+}
     public void init(Object context) {
         // use two network threads instead of one
         updateNetworkThreadCount(2);
