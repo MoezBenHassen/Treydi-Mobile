@@ -76,7 +76,6 @@ public class ArticleListForm extends Form {
                     Log.p("ONE ARTICLE : "+article.toString());
                     articles.add(article);
                 }
-                
               // Create the UI components
                 for (Article article : articles) {
                     MultiButton mb = new MultiButton(article.getTitre());
@@ -102,24 +101,27 @@ public class ArticleListForm extends Form {
                     Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
                     Slider starRank = new Slider();
                     Form hi = new Form(new BoxLayout(BoxLayout.Y_AXIS));
-                    
-                    
+                         
                     //hi.add();
                   
                     cnt.add(imgV);
                     cnt.add(mb);
-                    cnt.add(FlowLayout.encloseCenter(createStarRankSlider()));
+                   Slider starRankSlider = createStarRankSlider();
+                    cnt.add(FlowLayout.encloseCenter(starRankSlider));
+                    int rating = starRankSlider.getProgress();
+                      Log.p("RATING"+rating);
+                    //log slider here
                     cnt.setWidth(deviceWidth);
                     cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                    cnt.getStyle().setMargin(20, 20, 0, 0);
                     add(cnt);
                     refreshTheme();
                     // Execute code after image has loaded
-                }
-
+                }  
+                
                 // Refresh the UI theme
                 refreshTheme();
-
             }
 
             @Override
@@ -138,25 +140,26 @@ public class ArticleListForm extends Form {
                 s.setBgTransparency(0);
             }
             
-private Slider createStarRankSlider() {
-    Slider starRank = new Slider();
-    starRank.setEditable(true);
-    starRank.setMinValue(0);
-    starRank.setMaxValue(10);
-   Font fnt = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+            private Slider createStarRankSlider() {
+                Slider starRank = new Slider();
+                starRank.setEditable(true);
+                starRank.setMinValue(0);
+                starRank.setMaxValue(5);
+                
+                Font fnt = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
-    Style s = new Style(0xffff33, 0, fnt, (byte)0);
-    Image fullStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
-    s.setOpacity(100);
-    s.setFgColor(0);
-    Image emptyStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
-    initStarRankStyle(starRank.getSliderEmptySelectedStyle(), emptyStar);
-    initStarRankStyle(starRank.getSliderEmptyUnselectedStyle(), emptyStar);
-    initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
-    initStarRankStyle(starRank.getSliderFullUnselectedStyle(), fullStar);
-    starRank.setPreferredSize(new Dimension(fullStar.getWidth() * 5, fullStar.getHeight()));
-    return starRank;
-}
+                Style s = new Style(0xffff33, 0, fnt, (byte)0);
+                Image fullStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
+                s.setOpacity(100);
+                s.setFgColor(0);
+                Image emptyStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
+                initStarRankStyle(starRank.getSliderEmptySelectedStyle(), emptyStar);
+                initStarRankStyle(starRank.getSliderEmptyUnselectedStyle(), emptyStar);
+                initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
+                initStarRankStyle(starRank.getSliderFullUnselectedStyle(), fullStar);
+                starRank.setPreferredSize(new Dimension(fullStar.getWidth() * 5, fullStar.getHeight()));
+                return starRank; 
+            }
         };
 
         // Set the URL of your Symfony API
