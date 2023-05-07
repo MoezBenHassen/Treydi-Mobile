@@ -619,10 +619,10 @@ public class ItemsList extends Form {
         C3.add(like);
 
         C3.add(dislike);
+        if (user == item.getId_user()) {
         C3.add(btns);
-
         C3.add(btnm);
-
+        }
         C2.add(lLibelle);
 
         C2.add(lCategorie);
