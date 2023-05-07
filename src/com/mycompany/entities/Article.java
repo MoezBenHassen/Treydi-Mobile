@@ -11,7 +11,31 @@ import java.util.Date;
  * @author SBS
  */
 public class Article {
+    private int id;
+    private String titre, description, contenu;
+    private Date date_publication;
+    private int id_categorie;
+    private int archived;
+    private int id_user;
+    private String auteur;
+    private float AvgRating;
+    private String image;
 
+    public Article(String titre, String description, String contenu, String image) {
+        this.titre = titre;
+        this.description = description;
+        this.contenu = contenu;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
     public Article(String titre, String description, String contenu) {
         this.titre = titre;
         this.description = description;
@@ -21,14 +45,10 @@ public class Article {
     public Article() {
     }
     
-    private int id;
-    private String titre, description, contenu;
-    private Date date_publication;
-    private int id_categorie;
-    private int archived;
-    private int id_user;
-    private String auteur;
-    private float AvgRating;
+    public Article(String title, String description) {
+       this.titre = title;
+       this.description = description;
+    }
     
     public int getId() {
         return id;
@@ -108,6 +128,11 @@ public class Article {
 
     public void setAvgRating(float AvgRating) {
         this.AvgRating = AvgRating;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" + "titre=" + titre + '}';
     }
  
     

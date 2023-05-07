@@ -43,7 +43,7 @@ private Resources theme;
         ArticleService articleService = new ArticleService();
         
         getToolbar().addCommandToSideMenu("Articles", null, ev -> { new AddArticleForm(this, articleService).show();  });
-        getToolbar().addCommandToSideMenu("ArticlesL", null, ev -> { new ArticleListForm(this, articleService).show();});
+        getToolbar().addCommandToSideMenu("ArticlesL", null, ev -> { new ArticleListForm(this).show();});
 
         
     }
