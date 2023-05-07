@@ -48,7 +48,7 @@ public class ServiceReclamation {
     
     
      
-     public void ajoutReclamation(String a, String b) {
+      public void ajoutReclamation(String a, String b) {
         
          String url = Statics.BASE_URL + "/reclamation/addUserm?titre_reclamation=" +a + "&description_reclamation=" + b;
         
@@ -79,7 +79,7 @@ public class ServiceReclamation {
                 try {
                     Map<String,Object>mapReclamations = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
                     System.out.println(mapReclamations);
-                    
+                        
                     List<Map<String,Object>> listOfMaps =  (List<Map<String,Object>>) mapReclamations.get("recs"); 
                     System.out.println(listOfMaps);
                     for(Map<String, Object> obj : listOfMaps) {
@@ -110,7 +110,7 @@ public class ServiceReclamation {
             }
         });
         
-      NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+      NetworkManager.getInstance().addToQueueAndWait(req);
         
         return result;
         
@@ -127,7 +127,7 @@ public boolean modifierReclamation(int id, String titre, String desc) {
     req.addResponseListener(new ActionListener<NetworkEvent>() {
         @Override
         public void actionPerformed(NetworkEvent evt) {
-            resultOk = req.getResponseCode() == 200;  // Code response Http 200 ok
+            resultOk = req.getResponseCode() == 200;  
             req.removeResponseListener(this);
         }
     });
@@ -145,7 +145,7 @@ public boolean supprimerReclamation(int id){
     req.addResponseListener(new ActionListener<NetworkEvent>() {
         @Override
         public void actionPerformed(NetworkEvent evt) {
-            resultOk = req.getResponseCode() == 200;  // Code response Http 200 ok
+            resultOk = req.getResponseCode() == 200;  
             req.removeResponseListener(this);
         }
     });

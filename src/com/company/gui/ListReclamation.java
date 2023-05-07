@@ -18,6 +18,8 @@ import com.mycompany.entities.Reclamation;
 import com.mycompany.services.ServiceReclamation;
 import java.util.ArrayList;
 import com.company.gui.UpdateReclamationForm;
+import com.mycompany.entities.Reponse;
+import com.mycompany.services.ServiceReponse;
 
 
 
@@ -34,7 +36,8 @@ import com.company.gui.UpdateReclamationForm;
         for(Reclamation rec : list ) {
        
              int id = rec.getId_reclamation();
-            
+        Button repondreButton = new Button("Reponse");
+    
         MultiButton mb = new MultiButton(rec.getTitre_reclamation());
         mb.setUIID("Label");
 
@@ -50,7 +53,6 @@ import com.company.gui.UpdateReclamationForm;
 
             Button updateButton = new Button(updateIcon);
             
-            
             deleteButton.addActionListener(e -> {
                 new ServiceReclamation().supprimerReclamation(id);
                  Display.getInstance().callSerially(() -> {
@@ -58,15 +60,20 @@ import com.company.gui.UpdateReclamationForm;
             });
 
             });
-            
-            
-             updateButton.addActionListener(e -> {
-                
-                new UpdateReclamationForm(id,rec.getTitre_reclamation(),rec.getDescription()).show();
-            });
+            updateButton.addActionListener(e -> {
 
+                new UpdateReclamationForm(id, rec.getTitre_reclamation(), rec.getDescription()).show();
+            });
             
-        
+            
+            
+            repondreButton.addActionListener(e -> {
+                new  ReponseAffichageForm(rec.getId_reclamation()).show();
+                
+                
+            }); 
+
+
         Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         card.getStyle().setBgColor(0xFFFFFF);
         card.getStyle().setBgTransparency(255);
@@ -80,7 +87,7 @@ import com.company.gui.UpdateReclamationForm;
         card.add(mb);
         card.add(ta);
         card.add(deleteButton);
-        
+        card.addComponent(repondreButton);
         card.add(updateButton);
         
         add(card);

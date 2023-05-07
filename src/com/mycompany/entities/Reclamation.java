@@ -76,7 +76,10 @@ public class Reclamation {
         this.description = description;
     }
 
-    public Reclamation(String titre, String description) {
+    public Reclamation(String titre_reclamation, String description) {
+   
+        this.titre_reclamation = titre_reclamation;
+        this.description = description;
     }
 
 

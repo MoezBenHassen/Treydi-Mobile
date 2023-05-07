@@ -47,7 +47,7 @@ public class FormAjoutReclamation extends Form {
         submitButton.getStyle().setBorder(Border.createLineBorder(2));
 
         // Add an action listener to the button to handle the submission
-        submitButton.addActionListener(evt -> {
+         submitButton.addActionListener(evt -> {
             // Get the values of the text fields
             String titre_reclamation = titreReclamationField.getText();
             String description_reclamation = descriptionReclamationField.getText();
