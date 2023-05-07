@@ -14,10 +14,9 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.util.UIBuilder;
-import com.mycompany.entities.Item;
 import com.mycompany.entities.Coupon;
 import java.util.ArrayList;
+import com.mycompany.services.CouponService;
 
 /**
  *
@@ -51,18 +50,20 @@ public class CouponsList extends Form{
 
     // Center the buttons container
     buttonsContainer.getAllStyles().setMarginTop(CENTER);
+    
+    CouponService cs= new CouponService();
 
     CM.addActionListener((ActionListener) (ActionEvent evt1) -> {
         Coupon c = new Coupon("Coupon Mensuel Mai", "50% sur la livraison", "VALID", "CasCouponMai","2023-06-01",1,1 );
-        coupons.add(c);
+        cs.ajoutCoupon(c);
     });
     CS.addActionListener((ActionListener) (ActionEvent evt1) -> {
         Coupon c = new Coupon("Coupon Special Mai", "100% sur la livraison", "VALID", "SpecCouponMai","2023-06-01",2,1 );
-        coupons.add(c);
+        cs.ajoutCoupon(c);
     });
     CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
         Coupon c = new Coupon("Coupon Exclusif Mai", "Carte de recharge gratuite", "VALID", "ExcluCouponMai","2023-06-01",3,1 );
-        coupons.add(c);
+        cs.ajoutCoupon(c);
     });
 
     f.show();

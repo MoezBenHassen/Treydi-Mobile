@@ -21,7 +21,7 @@ public class Menu extends Form{
          getToolbar().addCommandToSideMenu("Profile", null, ev -> { new ItemsList(this).show(); } );
         getToolbar().addCommandToSideMenu("Items", null, ev -> { new ItemsList(this).show(); } );
         getToolbar().addCommandToSideMenu("Echanges", null, ev -> { new ItemsList(this).show(); } );
-        getToolbar().addCommandToSideMenu("Coupons", null, ev -> { new ItemsList(this).show(); } );
+        getToolbar().addCommandToSideMenu("Coupons", null, ev -> { new CouponsList(this).show(); } );
          getToolbar().addCommandToSideMenu("Articles", null, ev -> { new ItemsList(this).show(); } );
          getToolbar().addCommandToSideMenu("Reclamations", null, ev -> { new ItemsList(this).show(); } );
     }
