@@ -1,14 +1,22 @@
 package com.company.gui.Article;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Container;
+import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.URLImage;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.Border;
 import com.company.gui.Menu;
 import com.mycompany.dao.ArticleDao;
 import com.mycompany.entities.Article;
@@ -31,8 +39,11 @@ public class ArticleListForm extends Form {
             previous.showBack();
         });
         
-       
-       ConnectionRequest connectionRequest = new ConnectionRequest() {
+       Image imgs = null;
+       ImageViewer imgV;
+       EncodedImage placeholder1 = EncodedImage.createFromImage(FontImage.createMaterial(FontImage.MATERIAL_IMAGE, "MultiButton", 8), true);
+       ConnectionRequest connectionRequest;
+        connectionRequest = new ConnectionRequest() {
             @Override
             protected void readResponse(InputStream input) throws IOException {
                 // Parse the JSON response
@@ -55,30 +66,54 @@ public class ArticleListForm extends Form {
                     Log.p("IMAGE: " + image);
                     
                     // Create a new Article object and add it to the list
-                    Article article = new Article(title,description, contenu);
+                    Article article = new Article(title,description, contenu,image);
                     Log.p("ONE ARTICLE : "+article.toString());
                     articles.add(article);
                     
 
                 }
-
+                
                 // Create the UI components
                 for (Article article : articles) {
-
+                       
                     MultiButton mb = new MultiButton(article.getTitre());
                     
                     mb.setBadgeText(article.getTitre());
                     
                     Log.p("TITRE"+article.getTitre());
+                    Log.p("GET IMAGE : "+article.getImage());
                     mb.setTextLine2("details");
                     mb.addActionListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                   Image img=null;
+                   img = URLImage.createToStorage(placeholder1,
+                            article.getImage(),
+                            article.getImage(),
+                            URLImage.RESIZE_SCALE);
+                    int deviceWidth = Display.getInstance().getDisplayWidth();
+
+                    img = img.scaledWidth(deviceWidth);
+                    //int height = (int)(img.getHeight() * ((float)deviceWidth / img.getWidth()));
+                    int height = (int)(563.0 / 1133.0 *deviceWidth);
+                    img = img.scaledHeight(height);
+                    img = img.scaled(deviceWidth, height);
+                    ImageViewer imgV = new ImageViewer(img);
+                  
+                    Container cnt = new Container (new BorderLayout());
+                    cnt.add(BorderLayout.CENTER, imgV);
                     
-                    add(mb);
                     
+                    cnt.add(BorderLayout.SOUTH, mb);
+                    cnt.setWidth(deviceWidth);
+                    cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                    imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                    add(cnt);
+                refreshTheme();
+// Execute code after image has loaded
                 }
 
                 // Refresh the UI theme
                 refreshTheme();
+                
             }
 
             @Override
