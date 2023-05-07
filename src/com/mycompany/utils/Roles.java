@@ -1,4 +1,4 @@
-package com.mycompany.Utils.Enums;
+package com.mycompany.utils;
 
 public enum Roles {
     admin,

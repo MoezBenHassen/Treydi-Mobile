@@ -1,6 +1,6 @@
 package com.mycompany.entities;
 
-import com.mycompany.Utils.Enums.Roles;
+import com.mycompany.utils.Roles;
 import javafx.scene.image.Image;
 
 public class Utilisateur {
