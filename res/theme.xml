@@ -6,6 +6,7 @@
     <image name="hand.png"  />
     <image name="head.png"  />
     <image name="leg.png"  />
+    <image name="Screenshot_2.jpg"  />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
     </theme>

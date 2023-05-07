@@ -13,10 +13,14 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Slider;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.plaf.Border;
+import com.codename1.ui.plaf.Style;
 import com.company.gui.Menu;
 import com.mycompany.dao.ArticleDao;
 import com.mycompany.entities.Article;
@@ -35,7 +39,7 @@ public class ArticleListForm extends Form {
     List<Article> articles = new ArrayList<>();
     public ArticleListForm(Form previous) {
         //add button in toolbar 
-        getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, ev -> {
             previous.showBack();
         });
         
@@ -77,18 +81,17 @@ public class ArticleListForm extends Form {
                 for (Article article : articles) {
                        
                     MultiButton mb = new MultiButton(article.getTitre());
-                    
-                    mb.setBadgeText(article.getTitre());
+                    mb.setText(article.getTitre());
                     
                     Log.p("TITRE"+article.getTitre());
                     Log.p("GET IMAGE : "+article.getImage());
                     mb.setTextLine2("details");
                     mb.addActionListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
-                   Image img=null;
-                   img = URLImage.createToStorage(placeholder1,
-                            article.getImage(),
-                            article.getImage(),
-                            URLImage.RESIZE_SCALE);
+                    Image img=null;
+                    img = URLImage.createToStorage(placeholder1,
+                             article.getImage(),
+                             article.getImage(),
+                             URLImage.RESIZE_SCALE);
                     int deviceWidth = Display.getInstance().getDisplayWidth();
 
                     img = img.scaledWidth(deviceWidth);
@@ -97,22 +100,25 @@ public class ArticleListForm extends Form {
                     img = img.scaledHeight(height);
                     img = img.scaled(deviceWidth, height);
                     ImageViewer imgV = new ImageViewer(img);
-                  
+
                     Container cnt = new Container (new BorderLayout());
                     cnt.add(BorderLayout.CENTER, imgV);
-                    
+
+                    Slider slider = new Slider();
                     
                     cnt.add(BorderLayout.SOUTH, mb);
                     cnt.setWidth(deviceWidth);
                     cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                    cnt.add(slider);
                     imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     add(cnt);
-                refreshTheme();
-// Execute code after image has loaded
+                    refreshTheme();
+                    // Execute code after image has loaded
                 }
 
                 // Refresh the UI theme
                 refreshTheme();
+                
                 
             }
 

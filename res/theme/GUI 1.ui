@@ -23,4 +23,11 @@
       <custom name="image" type="com.codename1.ui.Image" value="leg.png" />
     </component>
   </component>
+  <component type="Container" name="Container2" cloudDestinationProperty="Container2" layout="BoxLayout" boxLayoutAxis="Y" >
+    <component type="ImageViewer" name="ImageViewer6" cloudDestinationProperty="ImageViewer6" >
+      <custom name="image" type="com.codename1.ui.Image" value="Screenshot_2.jpg" />
+    </component>
+    <component type="MultiButton" name="CHOSE" cloudDestinationProperty="MultiButton" >
+    </component>
+  </component>
 </component>
