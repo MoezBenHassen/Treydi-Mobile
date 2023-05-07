@@ -9,12 +9,14 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Slider;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -42,7 +44,7 @@ public class ArticleListForm extends Form {
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, ev -> {
             previous.showBack();
         });
-        
+        setTitle("Our Blog");
        Image imgs = null;
        ImageViewer imgV;
        EncodedImage placeholder1 = EncodedImage.createFromImage(FontImage.createMaterial(FontImage.MATERIAL_IMAGE, "MultiButton", 8), true);
@@ -73,8 +75,6 @@ public class ArticleListForm extends Form {
                     Article article = new Article(title,description, contenu,image);
                     Log.p("ONE ARTICLE : "+article.toString());
                     articles.add(article);
-                    
-
                 }
                 
               // Create the UI components
@@ -100,8 +100,15 @@ public class ArticleListForm extends Form {
                     ImageViewer imgV = new ImageViewer(img);
 
                     Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                    Slider starRank = new Slider();
+                    Form hi = new Form(new BoxLayout(BoxLayout.Y_AXIS));
+                    
+                    
+                    //hi.add();
+                  
                     cnt.add(imgV);
                     cnt.add(mb);
+                    cnt.add(FlowLayout.encloseCenter(createStarRankSlider()));
                     cnt.setWidth(deviceWidth);
                     cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
@@ -113,14 +120,43 @@ public class ArticleListForm extends Form {
                 // Refresh the UI theme
                 refreshTheme();
 
-
-
             }
 
             @Override
             protected void handleErrorResponseCode(int code, String message) {
                 // Handle errors here
             }
+                public void showForm() {
+                 
+                }
+
+
+            private void initStarRankStyle(Style s, Image star) {
+                s.setBackgroundType(Style.BACKGROUND_IMAGE_TILE_BOTH);
+                s.setBorder(Border.createEmpty());
+                s.setBgImage(star);
+                s.setBgTransparency(0);
+            }
+            
+private Slider createStarRankSlider() {
+    Slider starRank = new Slider();
+    starRank.setEditable(true);
+    starRank.setMinValue(0);
+    starRank.setMaxValue(10);
+   Font fnt = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+
+    Style s = new Style(0xffff33, 0, fnt, (byte)0);
+    Image fullStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
+    s.setOpacity(100);
+    s.setFgColor(0);
+    Image emptyStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
+    initStarRankStyle(starRank.getSliderEmptySelectedStyle(), emptyStar);
+    initStarRankStyle(starRank.getSliderEmptyUnselectedStyle(), emptyStar);
+    initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
+    initStarRankStyle(starRank.getSliderFullUnselectedStyle(), fullStar);
+    starRank.setPreferredSize(new Dimension(fullStar.getWidth() * 5, fullStar.getHeight()));
+    return starRank;
+}
         };
 
         // Set the URL of your Symfony API
