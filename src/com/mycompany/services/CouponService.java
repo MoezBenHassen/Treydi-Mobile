@@ -8,6 +8,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Coupon;
 import com.mycompany.entities.Utilisateur;
@@ -173,7 +174,7 @@ public class CouponService {
       public ArrayList<Utilisateur>Scoreboard() {
         ArrayList<Utilisateur> result = new ArrayList<>();
         
-        String url = Statics.BASE_URL+"/displaycouponuser";
+        String url = Statics.BASE_URL+"/scores";
         req.setUrl(url);
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -194,12 +195,12 @@ public class CouponService {
 
                         String nom = (String) obj.get("nom");
                         String prenom = (String) obj.get("prenom");
-                        int score = (int) obj.get("score");
-                       
-                       
+                        Object scoreObj = obj.get("score");
+                        float score = (scoreObj != null) ? Float.parseFloat(scoreObj.toString()) : 0.0f;
+                                              
                         u.setNom(nom);
                         u.setPrenom(prenom);
-                        u.setScore(score);
+                        u.setScore((int)score);
                       
                         result.add(u);
                     

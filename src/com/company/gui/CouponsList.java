@@ -24,12 +24,13 @@ import com.codename1.ui.Image;
 import com.codename1.ui.plaf.Style;
 import java.io.IOException;
 import com.mycompany.services.QRCODE;
-import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.entities.Utilisateur;
 import java.util.ArrayList;
+import com.codename1.ui.Container;
+
 
 /**
  *
@@ -38,40 +39,61 @@ import java.util.ArrayList;
 public class CouponsList extends Form {
 
     public CouponsList(Form previous) {
-        setTitle("Choisir un coupon");
-        setLayout(new BoxLayout(BoxLayout.Y_AXIS));
+           getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+        previous.showBack();
+    });
+    setTitle("Choisir un coupon");
+    setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 
-        Button CM = new Button("Coupon Mensuel");
-        Button CS = new Button("Coupon Special");
-        Button CE = new Button("Coupon Exclusif");
+    Button CM = new Button("Coupon Mensuel");
+    Button CS = new Button("Coupon Special");
+    Button CE = new Button("Coupon Exclusif");
 
-        Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-        card.getStyle().setBgColor(0xFFFFFF);
-        card.getStyle().setBgTransparency(255);
-        card.getStyle().setMargin(5, 5, 0, 0);
-        card.getStyle().setPadding(10, 10, 10, 10);
-        card.getStyle().setBorder(
-                Border.createLineBorder(2, 0xCCCCCC)
-        );
+    Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+    card.getStyle().setBgColor(0xFFFFFF);
+    card.getStyle().setBgTransparency(255);
+    card.getStyle().setMargin(5, 5, 0, 0);
+    card.getStyle().setPadding(10, 10, 10, 10);
+    card.getStyle().setBorder(Border.createLineBorder(2, 0xCCCCCC));
 
-        card.add(CM);
-        card.add(CS);
-        card.add(CE);
+    card.add(CM);
+    card.add(CS);
+    card.add(CE);
 
-        add(card);
+    add(card);
 
-        Container centerContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-        centerContainer.getStyle().setAlignment(Component.CENTER);
-        Button scoreboardButton = new Button("Scoreboard");
-        Button mycoupons = new Button("Mes Coupons");
-        Container horizontalContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
-        horizontalContainer.add(scoreboardButton);
-        horizontalContainer.add(mycoupons);
-        centerContainer.add(horizontalContainer);
-        add(centerContainer);
+    Container centerContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+    centerContainer.getStyle().setAlignment(Component.CENTER);
+
+    // Create a new container for the scoreboard and mycoupons buttons
+    Container buttonContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+
+    Button scoreboardButton = new Button("Scoreboard");
+    // Add some margin between the buttons
+    scoreboardButton.getStyle().setMargin(400, 0, 0, 0);
+    buttonContainer.add(scoreboardButton);
+
+    Button mycoupons = new Button("Mes Coupons");
+    // Add some margin between the buttons
+    mycoupons.getStyle().setMargin(30, 0, 0, 0);
+    buttonContainer.add(mycoupons);
+
+    // Add the button container to the center container
+    centerContainer.add(buttonContainer);
+
+    // Set the center container to take up all available space
+    centerContainer.setScrollableY(true);
+
+    add(centerContainer);
 
         mycoupons.addActionListener((ActionListener) (ActionEvent evt1) -> {
+             
             Form newForm = new Form();
+             newForm.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+        // Navigate back to the previous form
+        showBack();
+    });
+
             CouponService cs = new CouponService();
             ArrayList<Coupon> coupons = cs.MyCoupons();
             Container cardsContainer = new Container();
@@ -104,35 +126,41 @@ public class CouponsList extends Form {
             newForm.show();
         });
 
-        scoreboardButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
-            Form newForm = new Form();
-            CouponService cs = new CouponService();
-            ArrayList<Utilisateur> users = cs.Scoreboard();
-            Container cardsContainer = new Container();
+     scoreboardButton.addActionListener((ActionListener) (ActionEvent evt1) -> {
+    Form newForm = new Form();
+     newForm.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+        // Navigate back to the previous form
+        showBack();
+    });
 
-            // Add each coupon as a separate card
-            for (Utilisateur user : users) {
-                Container card1 = new Container(new BorderLayout());
-                card1.getStyle().setMarginUnit(Style.UNIT_TYPE_DIPS);
-                card1.getStyle().setMarginTop(10);
+    CouponService cs = new CouponService();
+    ArrayList<Utilisateur> users = cs.Scoreboard();
+    Container cardsContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS)); // Use a BoxLayout with Y_AXIS
 
-                Label nom = new Label(user.getNom());
-                nom.getStyle().setFgColor(0x007aff);
-                card1.add(BorderLayout.NORTH, nom);
+    // Add each coupon as a separate card
+    for (Utilisateur user : users) {
+        Container card1 = new Container(new BorderLayout());
+        card1.getStyle().setMarginUnit(Style.UNIT_TYPE_DIPS);
+        card1.getStyle().setMarginTop(10);
 
-                Label prenom = new Label(user.getPrenom());
-                card1.add(BorderLayout.CENTER, prenom);
+        Label nom = new Label(user.getNom());
+        nom.getStyle().setFgColor(0x007aff);
+        card1.add(BorderLayout.WEST, nom); // Add the nom label to the left
 
-                Label score = new Label(String.valueOf(user.getScore()));
-                score.getStyle().setFgColor(0x007aff);
-                card1.add(BorderLayout.EAST, score);
+        Label prenom = new Label(user.getPrenom());
+        card1.add(BorderLayout.CENTER, prenom);
 
-                cardsContainer.add(card1);
-            }
+        Label score = new Label(String.valueOf(user.getScore()));
+        score.getStyle().setFgColor(0x007aff);
+        card1.add(BorderLayout.EAST, score);
 
-            newForm.getContentPane().add(cardsContainer);
-            newForm.show();
-        });
+        cardsContainer.add(card1);
+    }
+
+    newForm.getContentPane().add(cardsContainer);
+    newForm.show();
+});
+
       
 
     
@@ -146,6 +174,7 @@ public class CouponsList extends Form {
     } else {
         Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
     }
+    
 });
 
     CS.addActionListener((ActionListener) (ActionEvent evt1) -> {
@@ -175,6 +204,11 @@ CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
   private void showQRCode(String qrCodeData) {
     QRCODE qc= new QRCODE();
     Form qrCodeForm = new Form("QR Code");
+     qrCodeForm.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+        // Navigate back to the previous form
+        showBack();
+    });
+
     qrCodeForm.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
     
     
