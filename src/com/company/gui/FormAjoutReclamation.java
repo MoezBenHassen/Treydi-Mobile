@@ -3,6 +3,7 @@ package com.company.gui;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
@@ -18,7 +19,11 @@ import java.util.Date;
  */
 public class FormAjoutReclamation extends Form {
 
-    public FormAjoutReclamation() {
+    public FormAjoutReclamation(Form previous) {
+        getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+            previous.showBack();
+        });
+        
         // Set the title of the form
         setTitle("Ajouter une réclamation");
 

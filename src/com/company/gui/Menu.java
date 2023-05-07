@@ -23,8 +23,8 @@ public class Menu extends Form{
         getToolbar().addCommandToSideMenu("Echanges", null, ev -> { new ItemsList(this).show(); } );
         getToolbar().addCommandToSideMenu("Coupons", null, ev -> { new ItemsList(this).show(); } );
          getToolbar().addCommandToSideMenu("Articles", null, ev -> { new ItemsList(this).show(); } );
-         getToolbar().addCommandToSideMenu("List Reclamations", null, ev -> { new ListReclamation().show(); } );
-         getToolbar().addCommandToSideMenu("ajouter une Reclamation", null, ev -> { new FormAjoutReclamation().show(); } );
+         getToolbar().addCommandToSideMenu("List Reclamations", null, ev -> { new ListReclamation(this).show(); } );
+         getToolbar().addCommandToSideMenu("ajouter une Reclamation", null, ev -> { new FormAjoutReclamation(this).show(); } );
     }
     
 }

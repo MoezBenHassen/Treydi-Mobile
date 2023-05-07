@@ -6,6 +6,7 @@ package com.company.gui;
 
 import com.codename1.components.MultiButton;
 import com.codename1.ui.Container;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.layouts.BoxLayout;
@@ -20,8 +21,10 @@ import java.util.ArrayList;
  */
 public class ReponseAffichageForm extends Form {
 
-    public ReponseAffichageForm(int tt) {
-
+    public ReponseAffichageForm(int tt,Form previous) {
+        getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+            previous.showBack();
+        });
         ArrayList<Reponse> listr = new ServiceReponse().affichageReponse(tt);
         
                 for (Reponse rep : listr) {

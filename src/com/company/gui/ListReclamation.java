@@ -25,11 +25,11 @@ import com.mycompany.services.ServiceReponse;
 
  public class ListReclamation extends Form {
 
-    public ListReclamation() {
+    public ListReclamation(Form previous) {
         setTitle("Liste des Reclamations");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
-            // handle click event
+        getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+            previous.showBack();
         });
        ArrayList<Reclamation> list = new ServiceReclamation().getInstance().affichageReclamations();
 
@@ -62,13 +62,13 @@ import com.mycompany.services.ServiceReponse;
             });
             updateButton.addActionListener(e -> {
 
-                new UpdateReclamationForm(id, rec.getTitre_reclamation(), rec.getDescription()).show();
+                new UpdateReclamationForm(id, rec.getTitre_reclamation(), rec.getDescription(),this).show();
             });
             
             
             
             repondreButton.addActionListener(e -> {
-                new  ReponseAffichageForm(rec.getId_reclamation()).show();
+                new  ReponseAffichageForm(rec.getId_reclamation(),this).show();
                 
                 
             }); 

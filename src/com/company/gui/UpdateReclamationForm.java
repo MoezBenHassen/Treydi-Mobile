@@ -6,6 +6,7 @@ package com.company.gui;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.layouts.BoxLayout;
@@ -20,11 +21,13 @@ public class UpdateReclamationForm extends Form {
 
     private TextArea descriptionArea;
     private Button saveButton;
-
-    public UpdateReclamationForm(int id,String t,String d) {
+    
+    public UpdateReclamationForm(int id,String t,String d,Form previous) {
         setTitle("Modifier Réclamation");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-       
+       getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+            previous.showBack();
+        });
         TextArea titre = new TextArea(t);
         
         add(titre);
