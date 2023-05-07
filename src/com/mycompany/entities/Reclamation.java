@@ -61,6 +61,15 @@ public class Reclamation {
         this.archived = archived;
 
     }
+
+    public Reclamation(String titre_reclamation, String description, Etat_reclamation etat_reclamation, Date date_creation, int archived) {
+        this.titre_reclamation = titre_reclamation;
+        this.description = description;
+        this.etat_reclamation = etat_reclamation;
+        this.date_creation = date_creation;
+        this.archived = archived;
+    }
+    
     public Reclamation(int id_reclamation, String titre_reclamation, String description){
         this.id_reclamation = id_reclamation ;
         this.titre_reclamation = titre_reclamation;

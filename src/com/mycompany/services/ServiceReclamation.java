@@ -48,18 +48,18 @@ public class ServiceReclamation {
     
     
      
-     public void ajoutReclamation(Reclamation reclamation) {
+     public void ajoutReclamation(String a, String b) {
         
-        String url =Statics.BASE_URL+"/reclamation/addUser?$titre_reclamation="+reclamation.getTitre_reclamation()+"&description="+reclamation.getDescription(); // aa sorry n3adi getId lyheya mech ta3 user ta3 reclamation
+         String url = Statics.BASE_URL + "/reclamation/addUserm?titre_reclamation=" +a + "&description_reclamation=" + b;
         
         req.setUrl(url);
         req.addResponseListener((e) -> {
             
-            String str = new String(req.getResponseData());//Reponse json hethi lyrinaha fi navigateur 9bila
+            String str = new String(req.getResponseData());
             System.out.println("data == "+str);
         });
         
-        NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+        NetworkManager.getInstance().addToQueueAndWait(req);
         
     }
  
@@ -85,21 +85,18 @@ public class ServiceReclamation {
                     for(Map<String, Object> obj : listOfMaps) {
                         Reclamation re = new Reclamation();
                         
-                        //dima id fi codename one float 5outhouha
+                       
                     
                         
                         String objet = (String) obj.get("titre_reclamation");
                         
                         String description = (String) obj.get("description_reclamation");
                         
-                        
+                        float id = Float.parseFloat(obj.get("id").toString());
                  
                         re.setTitre_reclamation(objet);
                         re.setDescription(description);
-                        
-                        
-                        
-                        //insert data into ArrayList result
+                        re.setId_reclamation((int)id);
                         result.add(re);
                        
                     
@@ -119,9 +116,49 @@ public class ServiceReclamation {
         
         
     }
+public boolean modifierReclamation(int id, String titre, String desc) {
+    String url = Statics.BASE_URL + "/reclamation/updateUserm";
+    req.setUrl(url);
+    req.setPost(true);
+    req.addArgument("id", String.valueOf(id));
+    req.addArgument("titre_reclamation", titre);
+    req.addArgument("description_reclamation", desc);
     
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOk = req.getResponseCode() == 200;  // Code response Http 200 ok
+            req.removeResponseListener(this);
+        }
+    });
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOk; 
 }
 
+public boolean supprimerReclamation(int id){
+
+    String url = Statics.BASE_URL + "/reclamation/deletem";
+    req.setUrl(url);
+    req.setPost(true);
+    req.addArgument("id", String.valueOf(id));
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOk = req.getResponseCode() == 200;  // Code response Http 200 ok
+            req.removeResponseListener(this);
+        }
+    });
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOk; 
+
+
+}
+
+
+
+}
 
    
 

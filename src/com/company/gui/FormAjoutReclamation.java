@@ -49,51 +49,46 @@ public class FormAjoutReclamation extends Form {
         // Add an action listener to the button to handle the submission
         submitButton.addActionListener(evt -> {
             // Get the values of the text fields
-            String titre = titreReclamationField.getText();
-            String description = descriptionReclamationField.getText();
-try {
-                
-                if(titre.equals("") || description.equals("")) {
-                    Dialog.show("Veuillez vérifier les données","","Annuler", "OK");
-                }
-                
-                else {
-                    InfiniteProgress ip = new InfiniteProgress();; //Loading  after insert data
-                
+            String titre_reclamation = titreReclamationField.getText();
+            String description_reclamation = descriptionReclamationField.getText();
+            try {
+
+                if (titre_reclamation.equals("") || description_reclamation.equals("")) {
+                    Dialog.show("Veuillez vérifier les données", "", "Annuler", "OK");
+                    
+                    
+                    
+                } else {
+                    
+                    
+                    
+                    
+                    InfiniteProgress ip = new InfiniteProgress();
+
                     final Dialog iDialog = ip.showInfiniteBlocking();
+
+                    Reclamation r = new Reclamation(titre_reclamation, description_reclamation);
                     
+                    System.out.println("data  reclamation == " + r);
+
+                   
+                          ServiceReclamation.getInstance().ajoutReclamation( titreReclamationField.getText() ,descriptionReclamationField.getText());
                     
-                    
-                    //njibo iduser men session (current user)
-                    Reclamation r = new Reclamation(String.valueOf(titre).toString(),
-                                  String.valueOf(description).toString());
-                    
-                    System.out.println("data  reclamation == "+r);
-                    
-                    
-                    //appelle methode ajouterReclamation mt3 service Reclamation bch nzido données ta3na fi base 
-                    ServiceReclamation.getInstance().ajoutReclamation(r);
-                    
-                      iDialog.dispose(); //na7io loading ba3d ma3mlna ajout
-                    
-                    //ba3d ajout net3adaw lel ListREclamationForm
-                  
-                    
-                    
-                    refreshTheme();//Actualisation
-                            
+
+                    iDialog.dispose(); 
+
+                    refreshTheme();
+
                 }
-                
-            }catch(Exception ex ) {
+
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            
-            
-                   
+
         });
-        
+
         // Add the components to the form
         addAll(titreReclamationField, descriptionReclamationField, submitButton);
-    
-}}
-         
+
+    }
+}
