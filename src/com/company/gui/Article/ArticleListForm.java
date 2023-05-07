@@ -77,39 +77,33 @@ public class ArticleListForm extends Form {
 
                 }
                 
-                // Create the UI components
+              // Create the UI components
                 for (Article article : articles) {
-                       
                     MultiButton mb = new MultiButton(article.getTitre());
                     mb.setText(article.getTitre());
-                    
+
                     Log.p("TITRE"+article.getTitre());
                     Log.p("GET IMAGE : "+article.getImage());
                     mb.setTextLine2("details");
                     mb.addActionListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     Image img=null;
                     img = URLImage.createToStorage(placeholder1,
-                             article.getImage(),
-                             article.getImage(),
-                             URLImage.RESIZE_SCALE);
+                        article.getImage(),
+                        article.getImage(),
+                        URLImage.RESIZE_SCALE);
                     int deviceWidth = Display.getInstance().getDisplayWidth();
 
                     img = img.scaledWidth(deviceWidth);
-                    //int height = (int)(img.getHeight() * ((float)deviceWidth / img.getWidth()));
                     int height = (int)(563.0 / 1133.0 *deviceWidth);
                     img = img.scaledHeight(height);
                     img = img.scaled(deviceWidth, height);
                     ImageViewer imgV = new ImageViewer(img);
 
-                    Container cnt = new Container (new BorderLayout());
-                    cnt.add(BorderLayout.CENTER, imgV);
-
-                    Slider slider = new Slider();
-                    
-                    cnt.add(BorderLayout.SOUTH, mb);
+                    Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                    cnt.add(imgV);
+                    cnt.add(mb);
                     cnt.setWidth(deviceWidth);
                     cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
-                    cnt.add(slider);
                     imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     add(cnt);
                     refreshTheme();
@@ -118,8 +112,9 @@ public class ArticleListForm extends Form {
 
                 // Refresh the UI theme
                 refreshTheme();
-                
-                
+
+
+
             }
 
             @Override
