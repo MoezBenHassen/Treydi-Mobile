@@ -49,6 +49,7 @@ import org.json.JSONObject;
  */
 public class ItemsList extends Form {
 
+    int user = 5;
     ArrayList<Item> items = new ArrayList<>();
     ArrayList<Categorie_Items> catitems = new ArrayList<>();
 
@@ -97,7 +98,7 @@ public class ItemsList extends Form {
         request.setHttpMethod("GET");
         request2.setUrl(BASE_URL + "/item/mobile/listc");
         request2.setHttpMethod("GET");
-        NetworkManager.getInstance().addToQueue(request2);
+        NetworkManager.getInstance().addToQueueAndWait(request2);
         NetworkManager.getInstance().addToQueue(request);
 
         getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
@@ -147,7 +148,7 @@ public class ItemsList extends Form {
                 }, Display.GALLERY_IMAGE);
             });
 
-            ivv.setPreferredSize(new Dimension(300, 300));
+            ivv.setPreferredSize(new Dimension(400, 400));
 
             Button btn = new Button("Ajouter");
             f2.add(new Label("Libelle :"));
@@ -189,8 +190,6 @@ public class ItemsList extends Form {
                 Item.type stType = Item.type.valueOf(strType);
                 Item.state stEtat = Item.state.valueOf(strEtat);
 
-                Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), 0, 1, 1, 0, 0);
-
                 StringBuilder sb = new StringBuilder();
                 for (Categorie_Items x : catitems) {
                     if (cbCategorie.getSelectedItem() == x.getNom_categorie()) {
@@ -202,6 +201,8 @@ public class ItemsList extends Form {
                 }
                 String result = sb.toString();
 
+                Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), user, Integer.parseInt(result), 1, 0, 0);
+
                 JSONObject itemJson = new JSONObject();
                 itemJson.put("libelle", i.getLibelle());
                 itemJson.put("description", i.getDescription());
@@ -209,7 +210,7 @@ public class ItemsList extends Form {
                 itemJson.put("type", i.getType());
                 itemJson.put("etat", i.getEtat());
                 itemJson.put("imageurl", i.getImageurl());
-                itemJson.put("id_user", 5);
+                itemJson.put("id_user", user);
 
                 String endpointUrl = BASE_URL + "/item/mobile/add";
                 ConnectionRequest request3 = new ConnectionRequest();
@@ -228,7 +229,7 @@ public class ItemsList extends Form {
                     }
                 });
                 NetworkManager.getInstance().addToQueueAndWait(request3);
-                
+
                 items.add(i);
                 removeAll();
                 for (Item ix : items) {
@@ -316,41 +317,213 @@ public class ItemsList extends Form {
             });
 
             NetworkManager.getInstance().addToQueueAndWait(request4);
-            
-               
-                items.remove(item);
-                removeAll();
-                for (Item ix : items) {
-                    addItem(ix);
-                }
-                showBack();
-                
-                 show();
+
+            items.remove(item);
+            removeAll();
+            for (Item ix : items) {
+                addItem(ix);
+            }
+            showBack();
+
+            show();
 
         });
 
         Button btnm = new Button("Modifier ");
 
+        btnm.addActionListener((ActionListener) (ActionEvent evt1) -> {
+
+            Form f2 = new Form("Modification", BoxLayout.y());
+            TextField tfLibelle = new TextField(item.getLibelle());
+            ComboBox<String> cbCategorie = new ComboBox<>();
+            for (Categorie_Items i : catitems) {
+
+                cbCategorie.addItem(i.getNom_categorie());
+            }
+            TextArea taDescription = new TextArea(item.getDescription());
+            ButtonGroup bgType = new ButtonGroup();
+            RadioButton rb1 = new RadioButton("Physique Neuf");
+            RadioButton rb2 = new RadioButton("Physique Occasion");
+            RadioButton rb3 = new RadioButton("Virtuelle");
+            RadioButton rb4 = new RadioButton("Service");
+            bgType.add(rb1);
+            bgType.add(rb2);
+            bgType.add(rb3);
+            bgType.add(rb4);
+
+            // Create a Command to open the device's file picker
+            ImageViewer ivv = new ImageViewer();
+            StringBuilder encodedImagee = new StringBuilder();
+
+            Button imgb = new Button("Selectionner Image");
+            imgb.addActionListener(e -> {
+                Display.getInstance().openGallery(new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        String filePath = (String) evt.getSource();
+                        Image img = null;
+                        try {
+
+                            img = Image.createImage(filePath);
+                            ivv.setImage(img);
+                            ByteArrayOutputStream out = new ByteArrayOutputStream();
+                            ImageIO.getImageIO().save(img, out, ImageIO.FORMAT_PNG, 1.0f);
+                            String encodedImage = "data:image/jpeg;base64, " + Base64.encode(out.toByteArray());
+                            encodedImagee.append(encodedImage);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }, Display.GALLERY_IMAGE);
+            });
+
+            ivv.setPreferredSize(new Dimension(300, 300));
+
+            Button btn = new Button("Modifier");
+            f2.add(new Label("Libelle :"));
+            f2.add(tfLibelle);
+            f2.add(new Label("Categorie :"));
+            f2.add(cbCategorie);
+            f2.add(new Label("Description :"));
+            f2.add(taDescription);
+            f2.add(new Label("Type et Etat :"));
+            f2.add(rb1);
+            f2.add(rb2);
+            f2.add(rb3);
+            f2.add(rb4);
+            f2.add(imgb);
+            f2.add(ivv);
+            f2.add(btn);
+
+            f2.show();
+
+            btn.addActionListener((ActionListener) (ActionEvent evt2) -> {
+                String strType = "Physique";
+                String strEtat = "Null";
+                if (rb1.isSelected()) {
+                    strType = "Physique";
+                    strEtat = "Neuf";
+                } else if (rb2.isSelected()) {
+                    strType = "Physique";
+                    strEtat = "Occasion";
+                } else if (rb3.isSelected()) {
+                    strType = "Virtuelle";
+                    strEtat = "Null";
+                } else if (rb4.isSelected()) {
+                    strType = "Service";
+                    strEtat = "Null";
+                } else {
+                    strType = "Physique";
+                    strEtat = "Null";
+                }
+                Item.type stType = Item.type.valueOf(strType);
+                Item.state stEtat = Item.state.valueOf(strEtat);
+
+                StringBuilder sbb = new StringBuilder();
+                for (Categorie_Items x : catitems) {
+                    if (cbCategorie.getSelectedItem() == x.getNom_categorie()) {
+                        if (sbb.length() > 0) {
+                            sbb.append(", ");
+                        }
+                        sbb.append(x.getId_categorie());
+                    }
+                }
+                String resultt = sbb.toString();
+
+                Item i = new Item(item.getId_item(), tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), user, Integer.parseInt(resultt), 1, 0, 0);
+
+                JSONObject itemJson = new JSONObject();
+                itemJson.put("id", item.getId_item());
+                itemJson.put("libelle", i.getLibelle());
+                itemJson.put("description", i.getDescription());
+                itemJson.put("id_categorie", Integer.parseInt(resultt));
+                itemJson.put("type", i.getType());
+                itemJson.put("etat", i.getEtat());
+                itemJson.put("imageurl", i.getImageurl());
+                itemJson.put("id_user", user);
+
+                String endpointUrl = BASE_URL + "/item/mobile/modify";
+                ConnectionRequest request5 = new ConnectionRequest();
+                request5.setUrl(endpointUrl);
+                request5.setPost(true);
+                request5.setContentType("application/json");
+                request5.setRequestBody(itemJson.toString());
+                request5.addResponseListener((e) -> {
+                    if (request5.getResponseCode() == 200) {
+
+                    } else {
+                        // Failed to send the item to Symfony
+                    }
+                });
+                NetworkManager.getInstance().addToQueueAndWait(request5);
+
+                items.remove(item);
+                items.add(i);
+                removeAll();
+                for (Item ix : items) {
+                    addItem(ix);
+                }
+                showBack();
+            });
+
+            for (Item i : items) {
+                addItem(i);
+            }
+
+            show();
+
+        });
+
         Button like = new Button("👍 " + item.getLikes() + " ");
+
+        like.addActionListener((ActionListener) (ActionEvent evt1) -> {
+            JSONObject itemJson = new JSONObject();
+            itemJson.put("id", item.getId_item());
+
+            String endpointUrl = BASE_URL + "/item/mobile/like/" + item.getId_item() + "_" + user;
+            ConnectionRequest request6 = new ConnectionRequest();
+            request6.setUrl(endpointUrl);
+            request6.setPost(true);
+            request6.setContentType("application/json");
+            request6.setRequestBody(itemJson.toString());
+            request6.addResponseListener((e) -> {
+                if (request6.getResponseCode() == 200) {
+
+                } else {
+                    // Failed to send the item to Symfony
+                }
+            });
+            NetworkManager.getInstance().addToQueueAndWait(request6);
+           show();
+        });
 
         Button dislike = new Button("👎 " + item.getDislikes() + " ");
 
         C3.add(btns);
+
         C3.add(btnm);
+
         C3.add(like);
+
         C3.add(dislike);
 
         C2.add(lLibelle);
+
         C2.add(lCategorie);
+
         C2.add(lTypeEtat);
+
         C1.add(img);
+
         C1.add(C2);
 
         C1.setLeadComponent(img);
+
         add(C1);
+
         add(C3);
 
-        add(new Label("─────────────────────────────────────────"));
+        add(
+                new Label("─────────────────────────────────────────"));
         refreshTheme();
 
     }
