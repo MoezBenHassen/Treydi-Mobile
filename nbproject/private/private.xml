@@ -4,13 +4,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/build.xml</file>
-            <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/src/com/mycompany/utils/Statics.java</file>
             <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/src/com/company/gui/Menu.java</file>
+            <file>jar:file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/lib/CodenameOne_SRC.zip!/com/codename1/ui/events/ActionEvent.java</file>
             <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/src/com/mycompany/entities/Item.java</file>
             <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/src/com/mycompany/entities/Categorie_Items.java</file>
             <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/src/com/company/gui/ItemsList.java</file>
-            <file>file:/C:/Home/Documents/University/ETIC3A%20S2/Projet%20Développement%20Web%20Java/Examens/PIDEV/Mobile/src/com/mycompany/entities/entities.txt</file>
         </group>
     </open-files>
 </project-private>

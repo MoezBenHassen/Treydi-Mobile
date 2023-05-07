@@ -42,6 +42,9 @@ import com.codename1.util.Base64;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
@@ -107,7 +110,9 @@ public class ItemsList extends Form {
         });
 
         getToolbar().addCommandToRightBar("Add", null, (ActionListener) (ActionEvent evt) -> {
+
             Form f2 = new Form("Ajout", BoxLayout.y());
+
             TextField tfLibelle = new TextField();
             ComboBox<String> cbCategorie = new ComboBox<>();
             for (Categorie_Items i : catitems) {
@@ -119,11 +124,15 @@ public class ItemsList extends Form {
             RadioButton rb2 = new RadioButton("Physique Occasion");
             RadioButton rb3 = new RadioButton("Virtuelle");
             RadioButton rb4 = new RadioButton("Service");
+            rb1.getStyle().setFgColor(0xffffff);
+            rb2.getStyle().setFgColor(0xffffff);
+            rb3.getStyle().setFgColor(0xffffff);
+            rb4.getStyle().setFgColor(0xffffff);
             bgType.add(rb1);
             bgType.add(rb2);
             bgType.add(rb3);
             bgType.add(rb4);
-
+            rb1.setSelected(true);
             // Create a Command to open the device's file picker
             ImageViewer ivv = new ImageViewer();
             StringBuilder encodedImagee = new StringBuilder();
@@ -166,6 +175,11 @@ public class ItemsList extends Form {
             f2.add(imgb);
             f2.add(ivv);
             f2.add(btn);
+
+            f2.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+                // Navigate back to the previous form
+                showBack();
+            });
 
             f2.show();
 
@@ -351,7 +365,7 @@ public class ItemsList extends Form {
             bgType.add(rb2);
             bgType.add(rb3);
             bgType.add(rb4);
-
+            rb1.setSelected(true);
             // Create a Command to open the device's file picker
             ImageViewer ivv = new ImageViewer();
             StringBuilder encodedImagee = new StringBuilder();
@@ -387,6 +401,11 @@ public class ItemsList extends Form {
             f2.add(new Label("Description :"));
             f2.add(taDescription);
             f2.add(new Label("Type et Etat :"));
+
+            rb1.getStyle().setFgColor(0xffffff);
+            rb2.getStyle().setFgColor(0xffffff);
+            rb3.getStyle().setFgColor(0xffffff);
+            rb4.getStyle().setFgColor(0xffffff);
             f2.add(rb1);
             f2.add(rb2);
             f2.add(rb3);
@@ -394,7 +413,10 @@ public class ItemsList extends Form {
             f2.add(imgb);
             f2.add(ivv);
             f2.add(btn);
-
+            f2.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+                // Navigate back to the previous form
+                showBack();
+            });
             f2.show();
 
             btn.addActionListener((ActionListener) (ActionEvent evt2) -> {
@@ -509,7 +531,7 @@ public class ItemsList extends Form {
                     // Failed to send the item to Symfony
                 }
             });
-            NetworkManager.getInstance().addToQueue(request6);
+            NetworkManager.getInstance().addToQueueAndWait(request6);
 
             ConnectionRequest request = new ConnectionRequest() {
                 @Override
@@ -561,7 +583,7 @@ public class ItemsList extends Form {
                     // Failed to send the item to Symfony
                 }
             });
-            NetworkManager.getInstance().addToQueue(request6);
+            NetworkManager.getInstance().addToQueueAndWait(request6);
 
             ConnectionRequest request = new ConnectionRequest() {
                 @Override
@@ -611,7 +633,7 @@ public class ItemsList extends Form {
 
         C1.add(C2);
 
-        C1.setLeadComponent(img);
+        C1.setLeadComponent(lLibelle);
 
         add(C1);
 
