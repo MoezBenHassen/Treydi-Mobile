@@ -54,7 +54,8 @@ public class ItemsList extends Form {
     ArrayList<Categorie_Items> catitems = new ArrayList<>();
 
     public ItemsList(Form previous) {
-
+        setTitle(
+                "Items");
         ConnectionRequest request = new ConnectionRequest() {
             @Override
             protected void readResponse(InputStream input) throws IOException {
@@ -456,24 +457,40 @@ public class ItemsList extends Form {
                 });
                 NetworkManager.getInstance().addToQueueAndWait(request5);
 
-                items.remove(item);
-                items.add(i);
-                removeAll();
-                for (Item ix : items) {
-                    addItem(ix);
-                }
-                showBack();
+                ConnectionRequest request = new ConnectionRequest() {
+                    @Override
+                    protected void readResponse(InputStream input) throws IOException {
+                        items = new ArrayList<>();
+                        JSONParser parser = new JSONParser();
+                        System.out.println(parser);
+                        Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
+                        List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
+                        for (Map<String, Object> item : itemss) {
+
+                            Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue());
+                            items.add(itemx);
+
+                        }
+
+                        removeAll();
+                        showBack();
+                        for (Item i : items) {
+                            addItem(i);
+                        }
+                        show();
+
+                    }
+
+                };
+                request.setUrl(BASE_URL + "/item/mobile/list");
+                request.setHttpMethod("GET");
+                NetworkManager.getInstance().addToQueue(request);
+
             });
-
-            for (Item i : items) {
-                addItem(i);
-            }
-
-            show();
 
         });
 
-        Button like = new Button("👍 " + item.getLikes() + " ");
+        Button like = new Button("👍 " + item.getLikes() + "  ─");
 
         like.addActionListener((ActionListener) (ActionEvent evt1) -> {
             JSONObject itemJson = new JSONObject();
@@ -492,19 +509,97 @@ public class ItemsList extends Form {
                     // Failed to send the item to Symfony
                 }
             });
-            NetworkManager.getInstance().addToQueueAndWait(request6);
-           show();
+            NetworkManager.getInstance().addToQueue(request6);
+
+            ConnectionRequest request = new ConnectionRequest() {
+                @Override
+                protected void readResponse(InputStream input) throws IOException {
+                    items = new ArrayList<>();
+                    JSONParser parser = new JSONParser();
+                    System.out.println(parser);
+                    Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
+                    List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
+                    for (Map<String, Object> item : itemss) {
+
+                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue());
+                        items.add(itemx);
+
+                    }
+
+                    removeAll();
+                    showBack();
+                    for (Item i : items) {
+                        addItem(i);
+                    }
+                    show();
+
+                }
+
+            };
+            request.setUrl(BASE_URL + "/item/mobile/list");
+            request.setHttpMethod("GET");
+            NetworkManager.getInstance().addToQueue(request);
+
         });
 
-        Button dislike = new Button("👎 " + item.getDislikes() + " ");
+        Button dislike = new Button("👎 " + item.getDislikes() + "  ─");
 
-        C3.add(btns);
+        dislike.addActionListener((ActionListener) (ActionEvent evt1) -> {
+            JSONObject itemJson = new JSONObject();
+            itemJson.put("id", item.getId_item());
 
-        C3.add(btnm);
+            String endpointUrl = BASE_URL + "/item/mobile/dislike/" + item.getId_item() + "_" + user;
+            ConnectionRequest request6 = new ConnectionRequest();
+            request6.setUrl(endpointUrl);
+            request6.setPost(true);
+            request6.setContentType("application/json");
+            request6.setRequestBody(itemJson.toString());
+            request6.addResponseListener((e) -> {
+                if (request6.getResponseCode() == 200) {
+
+                } else {
+                    // Failed to send the item to Symfony
+                }
+            });
+            NetworkManager.getInstance().addToQueue(request6);
+
+            ConnectionRequest request = new ConnectionRequest() {
+                @Override
+                protected void readResponse(InputStream input) throws IOException {
+                    items = new ArrayList<>();
+                    JSONParser parser = new JSONParser();
+                    System.out.println(parser);
+                    Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
+                    List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
+                    for (Map<String, Object> item : itemss) {
+
+                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue());
+                        items.add(itemx);
+
+                    }
+
+                    removeAll();
+                    showBack();
+                    for (Item i : items) {
+                        addItem(i);
+                    }
+                    show();
+
+                }
+
+            };
+            request.setUrl(BASE_URL + "/item/mobile/list");
+            request.setHttpMethod("GET");
+            NetworkManager.getInstance().addToQueue(request);
+
+        });
 
         C3.add(like);
 
         C3.add(dislike);
+        C3.add(btns);
+
+        C3.add(btnm);
 
         C2.add(lLibelle);
 
