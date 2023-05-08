@@ -48,6 +48,17 @@ public class MyApplication {
             }
             Log.sendLogAsync();
             Dialog.show("Connection Error", "There was a networking error in the connection to " + err.getConnectionRequest().getUrl(), "OK", null);
+<<<<<<< HEAD
+        });
+    }
+
+    public void start() {
+        if(current != null){
+            current.show();
+            return;
+        }
+ new Menu().show();
+=======
         });        
         
         
@@ -59,6 +70,7 @@ public class MyApplication {
         return;
     }
     new SignInForm(theme).show();
+>>>>>>> master
     }
 
     public void stop() {
@@ -68,7 +80,7 @@ public class MyApplication {
             current = getCurrentForm();
         }
     }
-    
+
     public void destroy() {
     }
 
