@@ -11,6 +11,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.Form;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Coupon;
+import com.mycompany.entities.Trader;
 import com.mycompany.entities.Utilisateur;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
@@ -171,8 +172,8 @@ public class CouponService {
     }
      
      
-      public ArrayList<Utilisateur>Scoreboard() {
-        ArrayList<Utilisateur> result = new ArrayList<>();
+      public ArrayList<Trader>Scoreboard() {
+        ArrayList<Trader> result = new ArrayList<>();
         
         String url = Statics.BASE_URL+"/scores";
         req.setUrl(url);
@@ -191,7 +192,7 @@ public class CouponService {
                     System.out.println(listOfMaps);
                      for(Map<String, Object> obj : listOfMaps) { 
                         
-                        Utilisateur u = new Utilisateur();
+                        Trader u = new Trader();
 
                         String nom = (String) obj.get("nom");
                         String prenom = (String) obj.get("prenom");

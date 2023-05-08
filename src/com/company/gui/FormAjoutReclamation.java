@@ -68,19 +68,19 @@ public class FormAjoutReclamation extends Form {
                     
                     
                     
-                    InfiniteProgress ip = new InfiniteProgress();
+                 //   InfiniteProgress ip = new InfiniteProgress();
 
-                    final Dialog iDialog = ip.showInfiniteBlocking();
+                 //   final Dialog iDialog = ip.showInfiniteBlocking();
 
                     Reclamation r = new Reclamation(titre_reclamation, description_reclamation);
                     
                     System.out.println("data  reclamation == " + r);
 
                    
-                          ServiceReclamation.getInstance().ajoutReclamation( titreReclamationField.getText() ,descriptionReclamationField.getText());
+                      ServiceReclamation.getInstance().ajoutReclamation( titreReclamationField.getText() ,descriptionReclamationField.getText());
                     
 
-                    iDialog.dispose(); 
+                   // iDialog.dispose(); 
 
                     refreshTheme();
 

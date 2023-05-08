@@ -30,6 +30,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.entities.Utilisateur;
 import java.util.ArrayList;
 import com.codename1.ui.Container;
+import com.mycompany.entities.Trader;
 
 
 /**
@@ -134,11 +135,11 @@ public class CouponsList extends Form {
     });
 
     CouponService cs = new CouponService();
-    ArrayList<Utilisateur> users = cs.Scoreboard();
+    ArrayList<Trader> users = cs.Scoreboard();
     Container cardsContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS)); // Use a BoxLayout with Y_AXIS
 
     // Add each coupon as a separate card
-    for (Utilisateur user : users) {
+    for (Trader user : users) {
         Container card1 = new Container(new BorderLayout());
         card1.getStyle().setMarginUnit(Style.UNIT_TYPE_DIPS);
         card1.getStyle().setMarginTop(10);
