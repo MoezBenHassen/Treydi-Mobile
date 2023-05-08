@@ -42,9 +42,6 @@ import com.codename1.util.Base64;
 import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
