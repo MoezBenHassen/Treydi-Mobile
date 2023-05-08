@@ -1,5 +1,6 @@
 package com.mycompany.entities;
 
+<<<<<<< HEAD
 
 
 
@@ -9,6 +10,17 @@ public class Utilisateur {
    
     private int archived;
     public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url, int score) {
+=======
+import com.mycompany.utils.Roles;
+import javafx.scene.image.Image;
+
+public class Utilisateur {
+    private int id_user;
+    private String password,nom,prenom,email,adresse,avatar_url;
+    public  Roles role;
+    private int archived;
+    public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url, Roles role) {
+>>>>>>> master
 
         this.password = password;
         this.nom = nom;
@@ -16,6 +28,7 @@ public class Utilisateur {
         this.email = email;
         this.adresse = adresse;
         this.avatar_url = avatar_url;
+<<<<<<< HEAD
         this.score = score;
         
     }
@@ -26,30 +39,61 @@ public class Utilisateur {
 
     public void setScore(int score) {
         this.score = score;
+=======
+        this.role = role;
+>>>>>>> master
     }
 
     public  Utilisateur(){
 
     }
+<<<<<<< HEAD
    
 
     public Utilisateur( String password, String nom, String prenom, String email, String adresse, String avatar_url,int id_user, int archived) {
+=======
+    public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url,Roles role,int archived) {
+>>>>>>> master
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
         this.avatar_url = avatar_url;
+<<<<<<< HEAD
         this.id_user = id_user;
         this.archived = archived;
     }
     public Utilisateur( String password, String nom, String prenom, String email, String adresse) {
+=======
+        this.role= role;
+        this.archived = archived;
+
+    }
+
+    public Utilisateur( String password, String nom, String prenom, String email, String adresse, String avatar_url, Roles role,int id_user, int archived) {
+>>>>>>> master
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
+<<<<<<< HEAD
 
+=======
+        this.avatar_url = avatar_url;
+        this.role = role;
+        this.id_user = id_user;
+        this.archived = archived;
+    }
+    public Utilisateur( String password, String nom, String prenom, String email, String adresse, Roles role) {
+        this.password = password;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.adresse = adresse;
+        this.role = role;
+>>>>>>> master
     }
     public Utilisateur( String password, String nom, String prenom, String email, String adresse, int id_user) {
         this.password = password;
@@ -141,7 +185,17 @@ public class Utilisateur {
         this.avatar_url = avatar_url;
     }
 
+<<<<<<< HEAD
   
+=======
+    public Roles getRole() {
+        return role;
+    }
+
+    public  void setRole(Roles role) {
+        this.role = role;
+    }
+>>>>>>> master
 
 
     @Override
@@ -154,7 +208,11 @@ public class Utilisateur {
                 ", email='" + email + '\'' +
                 ", adresse='" + adresse + '\'' +
                 ", avatar_url='" + avatar_url + '\'' +
+<<<<<<< HEAD
               
+=======
+                ", role=" + role +
+>>>>>>> master
                 '}';
     }
 }
