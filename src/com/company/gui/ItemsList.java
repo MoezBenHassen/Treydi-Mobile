@@ -49,7 +49,7 @@ import org.json.JSONObject;
  */
 public class ItemsList extends Form {
 
-    int user = 5;
+    int user = 1;
     ArrayList<Item> items = new ArrayList<>();
     ArrayList<Categorie_Items> catitems = new ArrayList<>();
 
