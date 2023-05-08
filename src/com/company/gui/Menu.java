@@ -34,10 +34,11 @@ private Resources theme;
                 } 
         );
         getToolbar().addCommandToSideMenu("Items", null, ev -> { new ItemsList(this).show(); } );
-        getToolbar().addCommandToSideMenu("Echanges", null, ev -> { new ItemsList(this).show(); } );
 
-        getToolbar().addCommandToSideMenu("Coupons", null, ev -> { new CouponsList(this).show(); } );
-
+        getToolbar().addCommandToSideMenu("Echanges", null, ev -> { new EchangeList().show(); } );
+        getToolbar().addCommandToSideMenu("Echanges Livreur", null, ev -> { new EchangeListLivreur(this).show(); } );
+        getToolbar().addCommandToSideMenu("Livraison", null, ev -> { new EchangeList().show(); } );
+        getToolbar().addCommandToSideMenu("Coupons", null, ev -> { new ItemsList(this).show(); } );
          getToolbar().addCommandToSideMenu("Articles", null, ev -> { new ItemsList(this).show(); } );
          getToolbar().addCommandToSideMenu("List Reclamations", null, ev -> { new ListReclamation(this).show(); } );
          getToolbar().addCommandToSideMenu("ajouter une Reclamation", null, ev -> { new FormAjoutReclamation(this).show(); } );
