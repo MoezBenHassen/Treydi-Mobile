@@ -51,12 +51,13 @@ public class ServiceUtilisateur {
     }
     
     //Signup
-    public void signup(TextField password,TextField email,TextField confirmPassword, ComboBox<String> roles , Resources res ) {
+    public void signup(TextField nom,TextField prenom,TextField adresse,TextField password,TextField email,TextField confirmPassword, ComboBox<String> roles , Resources res ) {
         
      
         
-        String url = Statics.BASE_URL+"/register/mob?email="+email.getText().toString()+
-                "&password="+password.getText().toString()+"&roles="+roles.getSelectedItem().toString();
+        String url = Statics.BASE_URL+"/register/mob?nom"+nom.getText().toString()+"&prenom="+prenom.getText().toString()+
+                "&adresse="+adresse.getText().toString()+"&email="+email.getText().toString()+"&password="+password.getText().toString()+
+                "&roles="+roles.getSelectedItem().toString();
         
         req.setUrl(url);
        
@@ -141,7 +142,12 @@ public class ServiceUtilisateur {
         NetworkManager.getInstance().addToQueueAndWait(req);
         System.out.println(SessionManager.getEmail());
         System.out.println(SessionManager.getId());
-        System.out.println(SessionManager.getPassowrd());
+        System.out.println(SessionManager.getPassword());
+        System.out.println(SessionManager.getNom());
+        System.out.println(SessionManager.getPrenom());
+        System.out.println(SessionManager.getAdresse());
+        System.out.println(SessionManager.getScore());
+        
     }
     
 

@@ -21,7 +21,9 @@ public class SignUpForm extends Form {
         super("Sign Up", new BoxLayout(BoxLayout.Y_AXIS));
         
                 
- 
+        TextField nom = new TextField("", "Nom", 20, TextField.ANY);
+        TextField prenom = new TextField("", "Prenom", 20, TextField.ANY);
+        TextField adresse = new TextField("", "Adresse", 20, TextField.ANY);
         TextField email = new TextField("", "E-Mail", 20, TextField.EMAILADDR);
         TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
         TextField confirmPassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
@@ -40,7 +42,10 @@ public class SignUpForm extends Form {
         
         
         add(new Label("Create a new account"));
+        add(nom);
+        add(prenom);
         add(email);
+        add(adresse);
         add(password);
         add(confirmPassword);
         add(roles);
@@ -48,10 +53,20 @@ public class SignUpForm extends Form {
 
         // Add action listener to the sign up button
         signUpButton.addActionListener((evt) -> {
-            // Call the signup method of the ServiceUtilisateur class to sign up the user
-            ServiceUtilisateur.getInstance().signup(password, email, confirmPassword, roles, res);
-            Dialog.show("Success","account is saved","OK",null);
-            new SignInForm(res).show();
-        });
+    // Get the text field values
+        String nomValue = nom.getText();
+        String prenomValue = prenom.getText();
+        String adresseValue = adresse.getText();
+        String emailValue = email.getText();
+        String passwordValue = password.getText();
+        String confirmPasswordValue = confirmPassword.getText();
+        String roleValue = roles.getSelectedItem();
+    
+    // Call the signup method with the text field objects
+        ServiceUtilisateur.getInstance().signup(nom, prenom, adresse, password, email, confirmPassword, roles, res);
+    
+        Dialog.show("Success", "Account is saved", "OK", null);
+    new SignInForm(res).show();
+});
     }
 }
