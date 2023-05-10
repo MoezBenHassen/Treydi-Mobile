@@ -55,7 +55,7 @@ public class ServiceUtilisateur {
         
      
         
-        String url = Statics.BASE_URL+"/register/mob?nom"+nom.getText().toString()+"&prenom="+prenom.getText().toString()+
+        String url = Statics.BASE_URL+"/register/mob?nom="+nom.getText().toString()+"&prenom="+prenom.getText().toString()+
                 "&adresse="+adresse.getText().toString()+"&email="+email.getText().toString()+"&password="+password.getText().toString()+
                 "&roles="+roles.getSelectedItem().toString();
         
@@ -118,10 +118,15 @@ public class ServiceUtilisateur {
              
                 //Session 
                 float id = Float.parseFloat(user.get("id").toString());
+               
                 SessionManager.setId((int)id);//jibt id ta3 user ly3ml login w sajltha fi session ta3i
                 
-                SessionManager.setPassowrd(user.get("password").toString());
+                SessionManager.setPassword(user.get("password").toString());
                 SessionManager.setEmail(user.get("email").toString());
+                SessionManager.setNom(user.get("nom").toString());
+                SessionManager.setPrenom(user.get("prenom").toString());
+                SessionManager.setAdresse(user.get("adresse").toString());
+            
      
                 
                 if(user.size() >0 ) // l9a user
@@ -137,16 +142,14 @@ public class ServiceUtilisateur {
             
             
         });
-    
-         //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
         NetworkManager.getInstance().addToQueueAndWait(req);
         System.out.println(SessionManager.getEmail());
         System.out.println(SessionManager.getId());
         System.out.println(SessionManager.getPassword());
         System.out.println(SessionManager.getNom());
         System.out.println(SessionManager.getPrenom());
-        System.out.println(SessionManager.getAdresse());
         System.out.println(SessionManager.getScore());
+        System.out.println(SessionManager.getAdresse());
         
     }
     
