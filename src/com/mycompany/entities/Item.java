@@ -28,6 +28,8 @@ public class Item {
     private int likes ;
 
     private int dislikes ;
+    
+    private int views ;
 
     public Item() {
     }
@@ -45,7 +47,7 @@ public class Item {
     
     
 
-    public Item(int id_item, String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange, int likes, int dislikes) {
+    public Item(int id_item, String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange, int likes, int dislikes,int views) {
         this.id_item = id_item;
         this.libelle = libelle;
         this.description = description;
@@ -57,9 +59,10 @@ public class Item {
         this.id_echange = id_echange;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.views = views;
     }
 
-    public Item(String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange,int likes,int dislikes) {
+    public Item(String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange,int likes,int dislikes,int views) {
         this.libelle = libelle;
         this.description = description;
         this.type = type;
@@ -70,6 +73,7 @@ public class Item {
         this.id_echange = id_echange;
         this.likes = likes;
         this.dislikes = dislikes;
+        this.views = views;
     }
 
     public int getLikes() {
@@ -110,6 +114,14 @@ public class Item {
 
     public void setId_item(int id_item) {
         this.id_item = id_item;
+    }
+    
+        public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 
     public String getLibelle() {
