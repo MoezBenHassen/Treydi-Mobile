@@ -121,7 +121,9 @@ public class ServiceUtilisateur {
                 
                 SessionManager.setPassowrd(user.get("password").toString());
                 SessionManager.setEmail(user.get("email").toString());
-     
+                float score = Float.parseFloat(user.get("score").toString());
+                SessionManager.setScore((int)score);
+               
                 
                 if(user.size() >0 ) // l9a user
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
@@ -131,7 +133,8 @@ public class ServiceUtilisateur {
             
             }catch(Exception ex) {
                 ex.printStackTrace();
-            }
+                
+            } 
             
             
             
@@ -142,6 +145,7 @@ public class ServiceUtilisateur {
         System.out.println(SessionManager.getEmail());
         System.out.println(SessionManager.getId());
         System.out.println(SessionManager.getPassowrd());
+        System.out.println(SessionManager.getScore());
     }
     
 

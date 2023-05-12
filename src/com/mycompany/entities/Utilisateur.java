@@ -16,22 +16,26 @@ public class Utilisateur {
         this.adresse = adresse;
         this.avatar_url = avatar_url;
         this.role = role;
+     
     }
 
-    public  Utilisateur(){
-
-    }
-    public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url,Roles role,int archived) {
+    public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url, Roles role, int archived) {
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
         this.avatar_url = avatar_url;
-        this.role= role;
+        this.role = role;
         this.archived = archived;
+    }
+
+
+
+    public  Utilisateur(){
 
     }
+  
 
     public Utilisateur( String password, String nom, String prenom, String email, String adresse, String avatar_url, Roles role,int id_user, int archived) {
         this.password = password;

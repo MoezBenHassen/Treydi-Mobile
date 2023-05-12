@@ -21,6 +21,10 @@ public class SessionManager {
     private static int id ; 
     private static String email; 
     private static String passowrd ;
+    private static int score;
+
+    
+    
 
 
     public static Preferences getPref() {
@@ -29,6 +33,14 @@ public class SessionManager {
 
     public static void setPref(Preferences pref) {
         SessionManager.pref = pref;
+    }
+    
+    public static int getScore() {
+         return pref.get("score",score);
+    }
+
+    public static void setScore(int score) {
+        pref.set("score",score);
     }
 
     public static int getId() {

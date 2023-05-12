@@ -45,6 +45,9 @@ public class CouponsList extends Form {
     });
     setTitle("Choisir un coupon");
     setLayout(new BoxLayout(BoxLayout.Y_AXIS));
+    
+    Label scoreLabel = new Label("Votre score est: " + SessionManager.getScore());
+
 
     Button CM = new Button("Coupon Mensuel");
     Button CS = new Button("Coupon Special");
@@ -56,7 +59,8 @@ public class CouponsList extends Form {
     card.getStyle().setMargin(5, 5, 0, 0);
     card.getStyle().setPadding(10, 10, 10, 10);
     card.getStyle().setBorder(Border.createLineBorder(2, 0xCCCCCC));
-
+    
+    card.add(scoreLabel);
     card.add(CM);
     card.add(CS);
     card.add(CE);
