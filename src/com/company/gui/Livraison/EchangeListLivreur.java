@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.company.gui;
+package com.company.gui.Livraison;
 
 import com.codename1.components.MultiButton;
 import com.codename1.ui.Button;
@@ -10,6 +10,7 @@ import com.codename1.ui.Container;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
@@ -62,9 +63,14 @@ public class EchangeListLivreur extends Form {
                     previous.showBack();
                 });
                 ArrayList<Item> allItems = (ArrayList<Item>) echanges.getItems();
+                Label user1_nom = new Label("This is my label");
+
+                Container labelContainer_user1nom = new Container(new BorderLayout());
+
+                labelContainer_user1nom.add(BorderLayout.CENTER, user1_nom);
                 Container items1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                items1.add(labelContainer_user1nom);
                 items1.getStyle().setBgColor(0xFFFFFF);
-                items1.getStyle().setBgTransparency(255);
                 items1.getStyle().setMargin(5, 5, 0, 0);
                 items1.getStyle().setPadding(10, 10, 10, 10);
                 items1.getStyle().setBorder(Border.createLineBorder(2, 0xCCCCCC));
