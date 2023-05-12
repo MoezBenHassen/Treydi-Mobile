@@ -30,14 +30,16 @@ public class SignInForm extends Form {
         passwordField = new TextField("", "Password", 20, TextField.PASSWORD);
         signInButton = new Button("Sign In");
         Button signUpButton = new Button("Sign Up");
+        Button  mp = new Button("oublier mot de passe?","CenterLabel");
         signUpButton.addActionListener((evt) -> {
         new SignUpForm(theme).show();
         })  ; 
-        
+     
         signInContainer.add(emailField);
         signInContainer.add(passwordField);
         signInContainer.add(signInButton);
         signInContainer.add(signUpButton);
+        signInContainer.add(mp);
         
         signInButton.addActionListener((evt) -> {
             if (emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
@@ -48,5 +50,11 @@ public class SignInForm extends Form {
         });
         
         addComponent(BorderLayout.CENTER, signInContainer);
+        mp.addActionListener((e) -> {
+           
+            new ForgotPassword(theme).show();
+            
+            
+        });   
     }
 }

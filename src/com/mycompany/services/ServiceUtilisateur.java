@@ -126,7 +126,12 @@ public class ServiceUtilisateur {
                 SessionManager.setNom(user.get("nom").toString());
                 SessionManager.setPrenom(user.get("prenom").toString());
                 SessionManager.setAdresse(user.get("adresse").toString());
-            
+                 if (user.get("score") == null) {
+                 SessionManager.setScore(0);
+                } else {
+                float score = Float.parseFloat(user.get("score").toString());
+                SessionManager.setScore((int)score);
+                }
      
                 
                 if(user.size() >0 ) // l9a user
@@ -142,6 +147,9 @@ public class ServiceUtilisateur {
             
             
         });
+        
+        
+        
         NetworkManager.getInstance().addToQueueAndWait(req);
         System.out.println(SessionManager.getEmail());
         System.out.println(SessionManager.getId());
@@ -155,6 +163,41 @@ public class ServiceUtilisateur {
     
 
   //heki 5dmtha taw nhabtha ala description
-
+ public String getPasswordByEmail(String email, Resources rs ) {
+        
+        
+        String url = Statics.BASE_URL+"/login/getpasswordbyemail?email="+email;
+        req = new ConnectionRequest(url, false); //false ya3ni url mazlt matba3thtich lel server
+        req.setUrl(url);
+        
+        req.addResponseListener((e) ->{
+            
+            JSONParser j = new JSONParser();
+            
+             json = new String(req.getResponseData()) + "";
+            
+            
+            try {
+            
+          
+                System.out.println("data =="+json);
+                
+                Map<String,Object> password = j.parseJSON(new CharArrayReader(json.toCharArray()));
+                
+                
+            
+            
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+            
+            
+            
+        });
+    
+         //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    return json;
+    }
 
 }

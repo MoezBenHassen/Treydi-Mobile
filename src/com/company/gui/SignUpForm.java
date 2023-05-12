@@ -16,6 +16,7 @@ import java.util.Vector;
 
 public class SignUpForm extends Form {
     private Button signUpButton;
+    private Button signInButton; 
     
     public SignUpForm(Resources res) {
         super("Sign Up", new BoxLayout(BoxLayout.Y_AXIS));
@@ -39,7 +40,8 @@ public class SignUpForm extends Form {
         ComboBox<String>roles = new ComboBox<>(vectorRole);
         
         signUpButton = new Button("Sign Up");
-        
+        signInButton = new Button("Sign In");
+        add(signInButton);
         
         add(new Label("Create a new account"));
         add(nom);
@@ -61,6 +63,19 @@ public class SignUpForm extends Form {
         String passwordValue = password.getText();
         String confirmPasswordValue = confirmPassword.getText();
         String roleValue = roles.getSelectedItem();
+        
+        
+        if (nomValue.isEmpty() || prenomValue.isEmpty() || adresseValue.isEmpty() ||
+            emailValue.isEmpty() || passwordValue.isEmpty() || confirmPasswordValue.isEmpty()) {
+        Dialog.show("Error", "Please fill all the fields", "OK", null);
+        return;
+        }
+        // Check if password and confirm password fields match
+        if (!passwordValue.equals(confirmPasswordValue)) {
+        Dialog.show("Error", "Passwords do not match", "OK", null);
+        return;
+        }
+    
     
     // Call the signup method with the text field objects
         ServiceUtilisateur.getInstance().signup(nom, prenom, adresse, password, email, confirmPassword, roles, res);
@@ -68,5 +83,8 @@ public class SignUpForm extends Form {
         Dialog.show("Success", "Account is saved", "OK", null);
     new SignInForm(res).show();
 });
+         signInButton.addActionListener((evt) -> {
+            new SignInForm(res).show();
+        });
     }
 }
