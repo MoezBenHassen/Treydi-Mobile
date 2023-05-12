@@ -123,10 +123,27 @@ public class ServiceUtilisateur {
                 
                 SessionManager.setPassword(user.get("password").toString());
                 SessionManager.setEmail(user.get("email").toString());
+                if (user.get("nom") == null) {
+                SessionManager.setNom("");
+                } else {
                 SessionManager.setNom(user.get("nom").toString());
+                }
+                
+                 // check if prenom value is null
+                if (user.get("prenom") == null) {
+                SessionManager.setPrenom("");
+                } else {
                 SessionManager.setPrenom(user.get("prenom").toString());
-                SessionManager.setAdresse(user.get("adresse").toString());
-                 if (user.get("score") == null) {
+                }
+
+    // check if adresse value is null
+                if (user.get("adresse") == null) {
+               SessionManager.setAdresse("");
+                } else {
+               SessionManager.setAdresse(user.get("adresse").toString());
+                }
+                
+                if (user.get("score") == null) {
                  SessionManager.setScore(0);
                 } else {
                 float score = Float.parseFloat(user.get("score").toString());
