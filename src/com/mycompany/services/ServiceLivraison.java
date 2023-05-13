@@ -14,6 +14,7 @@ import com.company.gui.SessionManager;
 import com.mycompany.entities.Echange;
 import com.mycompany.entities.Item;
 import com.mycompany.entities.Livraison;
+import com.mycompany.entities.Utilisateur;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,13 +50,51 @@ public class ServiceLivraison {
         ConnectionRequest req = new ConnectionRequest();
         req.setUrl(url);
         req.setPost(true);
-        req.addArgument("id", String.valueOf(id));
+        req.addArgument("id_echange", String.valueOf(id));
+        req.addArgument("id_user", String.valueOf(SessionManager.getId()));
         req.addResponseListener((e) -> {
             String str = new String(req.getResponseData());
             System.out.println("data == " + str);
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
+    
+    public boolean supprimerLivraison(int id, int id_echange) {
+
+        String url = Statics.BASE_URL + "/livraison/mobile/delete";
+        req.setUrl(url);
+        req.setPost(true);
+        req.addArgument("id", String.valueOf(id));
+        req.addArgument("id_echange", String.valueOf(id_echange));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOk = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOk;
+    }
+    
+        public boolean terminerLivraison(int id) {
+
+        String url = Statics.BASE_URL + "/livraison/mobile/terminer";
+        req.setUrl(url);
+        req.setPost(true);
+        req.addArgument("id", String.valueOf(id));
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOk = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOk;
+    }
+    
+    
 
     public ArrayList<Livraison> listMesLivraisonLivreur() {
         ArrayList<Livraison> result = new ArrayList<>();
@@ -74,12 +113,46 @@ public class ServiceLivraison {
                         Livraison livraison = new Livraison();
 
                         Map<String, Object> echangeMap = (Map<String, Object>) obj.get("echange");
+                        Map<String, Object> user1Map = (Map<String, Object>) obj.get("user1");
+                        Map<String, Object> user2Map = (Map<String, Object>) obj.get("user2");
+                        //user1
+                        Utilisateur user1 = new Utilisateur();
+                        user1.setId_user((int) Float.parseFloat(echangeMap.get("id").toString()));
+                        user1.setPrenom((String) echangeMap.get("prenom"));
+                        user1.setAdresse((String) echangeMap.get("adresse"));
+                        
+                        //user2
+                        Utilisateur user2 = new Utilisateur();
+                        user2.setId_user((int) Float.parseFloat(echangeMap.get("id").toString()));
+                        user2.setPrenom((String) echangeMap.get("prenom"));
+                        user2.setAdresse((String) echangeMap.get("adresse"));
+                        
+                        //echange
                         Echange echange = new Echange();
                         
                         echange.setId_echange((int) Float.parseFloat(echangeMap.get("id").toString()));
                         echange.setTitre_echange((String) echangeMap.get("titre_echange"));
                         echange.setId_user1((int) Float.parseFloat(echangeMap.get("id_user1").toString()));
                         echange.setId_user2((int) Float.parseFloat(echangeMap.get("id_user2").toString()));
+                        
+                        //items
+                        List<Map<String, Object>> itemMaps = (List<Map<String, Object>>) obj.get("echange_items");
+                        List<Item> items = new ArrayList<>();
+                        for (Map<String, Object> itemMap : itemMaps) {
+                            Item item = new Item();
+                            float id = Float.parseFloat(itemMap.get("id").toString());
+                            item.setId_item((int) id);
+                            float id_echange = Float.parseFloat(itemMap.get("id_echange").toString());
+                            item.setId_echange((int) id_echange);
+                            float id_user = Float.parseFloat(itemMap.get("id_user").toString());
+                            item.setId_user((int) id_user);
+                            item.setLibelle((String) itemMap.get("libelle"));
+                            // set other item properties as needed
+                            items.add(item);
+                        }
+                        
+                        echange.setUser1(user1);
+                        echange.setUser2(user2);
 
                         float id_livraison = Float.parseFloat(obj.get("id").toString());
                         livraison.setId_livraison((int) id_livraison);
@@ -104,6 +177,8 @@ public class ServiceLivraison {
 
                         String adresse_livraison2 = (String) obj.get("adresse_livraison2");
                         livraison.setAdresse_livraison2((String) adresse_livraison2);
+                        
+                        echange.setItems(items);
                         
                         livraison.setEchange(echange);
 

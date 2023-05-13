@@ -59,7 +59,7 @@ public class EchangeListLivreur extends Form {
             mb.addActionListener(evt -> {
                 Form detailsForm = new Form(new GridLayout(1, 2));
                 detailsForm.setTitle(echanges.getTitre_echange()); // Set the form title to the exchange title
-                getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+                detailsForm.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
                     previous.showBack();
                 });
                 ArrayList<Item> allItems = (ArrayList<Item>) echanges.getItems();
