@@ -24,20 +24,16 @@ public class FormAjoutReclamation extends Form {
             previous.showBack();
         });
         
-        // Set the title of the form
+       
         setTitle("Ajouter une réclamation");
 
-        // Use a vertical box layout to stack the components
         setLayout(BoxLayout.y());
-
-        // Create text fields for the title and description of the reclamation
+        
         TextField titreReclamationField = new TextField("", "Titre : ");
         TextArea descriptionReclamationField = new TextArea();
         descriptionReclamationField.setHint("Description : ");
-        // Set the rows and columns of the textarea
         descriptionReclamationField.setRows(4);
         descriptionReclamationField.setColumns(20);
-        // Add a line break if the text exceeds 35 characters
         descriptionReclamationField.addDataChangedListener((int oldLen, int newLen) -> {
             if (newLen > 0 && newLen % 30 == 0) {
                 String text = descriptionReclamationField.getText();
@@ -45,15 +41,16 @@ public class FormAjoutReclamation extends Form {
             }
         });
 
-        // Create a button to submit the reclamation
+      
         Button submitButton = new Button("Valider");
 
-        // Add a border to the button
+        
         submitButton.getStyle().setBorder(Border.createLineBorder(2));
 
-        // Add an action listener to the button to handle the submission
+       
          submitButton.addActionListener(evt -> {
-            // Get the values of the text fields
+            
+            int id_user = SessionManager.getId();
             String titre_reclamation = titreReclamationField.getText();
             String description_reclamation = descriptionReclamationField.getText();
             try {
@@ -68,19 +65,17 @@ public class FormAjoutReclamation extends Form {
                     
                     
                     
-                 //   InfiniteProgress ip = new InfiniteProgress();
-
-                 //   final Dialog iDialog = ip.showInfiniteBlocking();
+                 
 
                     Reclamation r = new Reclamation(titre_reclamation, description_reclamation);
                     
                     System.out.println("data  reclamation == " + r);
 
-                   
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+id_user);
                       ServiceReclamation.getInstance().ajoutReclamation( titreReclamationField.getText() ,descriptionReclamationField.getText());
                     
 
-                   // iDialog.dispose(); 
+        
 
                     refreshTheme();
 
@@ -92,7 +87,7 @@ public class FormAjoutReclamation extends Form {
 
         });
 
-        // Add the components to the form
+     
         addAll(titreReclamationField, descriptionReclamationField, submitButton);
 
     }

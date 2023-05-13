@@ -15,6 +15,7 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
+import com.company.gui.SessionManager;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,30 +47,29 @@ public class ServiceReclamation {
         
     }
     
-    
-     
-      public void ajoutReclamation(String a, String b) {
-        
-         String url = Statics.BASE_URL + "/reclamation/addUserm?titre_reclamation=" +a + "&description_reclamation=" + b;
-        
+    public void ajoutReclamation(String a, String b) {
+        String url = Statics.BASE_URL + "/reclamation/addUserm??id_user="+SessionManager.getId()+"&titre_reclamation=" + a + "&description_reclamation=" + b ;
+        System.out.println(SessionManager.getId());
         req.setUrl(url);
+        String i = String.valueOf(SessionManager.getId());
+        System.out.println(i);
+        req.addArgument("id_user",i);
         req.addResponseListener((e) -> {
-            
             String str = new String(req.getResponseData());
-            System.out.println("data == "+str);
+            System.out.println("data == " + str);
         });
-        
         NetworkManager.getInstance().addToQueueAndWait(req);
-        
     }
- 
+
+
 
      public ArrayList<Reclamation>affichageReclamations() {
         ArrayList<Reclamation> result = new ArrayList<>();
         
-        String url = Statics.BASE_URL+"/reclamation/listm";
+        String url = Statics.BASE_URL+"/reclamation/listm?id_user="+SessionManager.getId();
         req.setUrl(url);
-        
+        // req.addArgument("id_user", String.valueOf(SessionManager.getId()));
+         System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"+SessionManager.getId());
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -93,7 +93,7 @@ public class ServiceReclamation {
                         String description = (String) obj.get("description_reclamation");
                         
                         float id = Float.parseFloat(obj.get("id").toString());
-                 
+                        
                         re.setTitre_reclamation(objet);
                         re.setDescription(description);
                         re.setId_reclamation((int)id);
