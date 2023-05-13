@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Map;
-import javafx.scene.image.ImageView;
+
 
 public class ArticleListForm extends Form {
     List<Article> articles = new ArrayList<>();

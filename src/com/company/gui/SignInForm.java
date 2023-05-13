@@ -35,11 +35,13 @@ public class SignInForm extends Form {
         new SignUpForm(theme).show();
         })  ; 
      
+
         signInContainer.add(emailField);
         signInContainer.add(passwordField);
         signInContainer.add(signInButton);
         signInContainer.add(signUpButton);
         signInContainer.add(mp);
+
         
         signInButton.addActionListener((evt) -> {
             if (emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
@@ -56,5 +58,6 @@ public class SignInForm extends Form {
             
             
         });   
+
     }
 }

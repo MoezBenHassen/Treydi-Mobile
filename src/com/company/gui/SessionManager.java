@@ -90,6 +90,7 @@ public class SessionManager {
 
     public static void setScore(int score) {
          pref.set("score",score);
+
     }
     
     

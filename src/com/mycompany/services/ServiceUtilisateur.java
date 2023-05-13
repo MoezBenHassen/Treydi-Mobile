@@ -8,12 +8,14 @@ package com.mycompany.services;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
+
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.ComboBox;
 import com.mycompany.utils.Statics;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.TextField;
+
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.Resources;
 import com.company.gui.Menu;
@@ -62,6 +64,7 @@ public class ServiceUtilisateur {
         String url = Statics.BASE_URL+"/register/mob?nom="+nom.getText().toString()+"&prenom="+prenom.getText().toString()+
                 "&adresse="+adresse.getText().toString()+"&email="+email.getText().toString()+"&password="+password.getText().toString()+
                 "&roles="+roles.getSelectedItem().toString();
+
         
         req.setUrl(url);
        
@@ -122,6 +125,7 @@ public class ServiceUtilisateur {
              
                 //Session 
                 float id = Float.parseFloat(user.get("id").toString());
+
                
                 SessionManager.setId((int)id);
                 
@@ -153,6 +157,7 @@ public class ServiceUtilisateur {
                 float score = Float.parseFloat(user.get("score").toString());
                 SessionManager.setScore((int)score);
                 }
+
      
                 
                 if(user.size() >0 ) // l9a user
@@ -180,10 +185,10 @@ public class ServiceUtilisateur {
         System.out.println(SessionManager.getScore());
         System.out.println(SessionManager.getAdresse());
         
+
     }
     
 
-  //heki 5dmtha taw nhabtha ala description
  public String getPasswordByEmail(String email, Resources rs ) {
         
         
@@ -249,6 +254,7 @@ public class ServiceUtilisateur {
 
 
     
+
 
 
 }

@@ -3,6 +3,7 @@ package com.mycompany.entities;
 import com.mycompany.utils.Roles;
 import javafx.scene.image.Image;
 
+
 public class Utilisateur {
     private int id_user;
     private String password,nom,prenom,email,adresse,avatar_url;
@@ -77,9 +78,11 @@ public class Utilisateur {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+
     public Utilisateur(int id, String nom, String prenom, String adresse, String password) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
 
 
     public int getArchived() {
