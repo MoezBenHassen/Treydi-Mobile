@@ -39,7 +39,7 @@ public class CouponService {
 }
     
     public boolean ajoutCoupon (Coupon coupon) {
-     String baseUrl = "http://localhost:8000/";
+     String baseUrl = "http://192.168.1.8:8000/";
      String addCouponRoute = "addcoupon";
      String url = baseUrl + addCouponRoute + "?titre_coupon=" + coupon.getTitre_coupon() + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon()+ "&id_user_id=" + coupon.getId_user()+ "&id_categorie_id="+ coupon.getId_categorie();
 

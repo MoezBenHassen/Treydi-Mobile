@@ -1,3 +1,4 @@
+
 package com.company.gui.Article;
 
 import com.codename1.components.ImageViewer;
@@ -6,6 +7,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.Log;
 import com.codename1.io.NetworkManager;
+import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
@@ -15,6 +17,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Slider;
+import com.codename1.ui.TextField;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
@@ -28,6 +31,7 @@ import com.mycompany.dao.ArticleDao;
 import com.mycompany.entities.Article;
 import com.mycompany.entities.Item;
 import com.mycompany.services.ArticleService;
+import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,23 +45,29 @@ public class ArticleListForm extends Form {
     List<Article> articles = new ArrayList<>();
     public ArticleListForm(Form previous) {
         //add button in toolbar 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, ev -> {
-            previous.showBack();
-        });
-        setTitle("Our Blog");
+        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, ev -> { previous.showBack(); } );
+       setTitle("Our Blog");
        Image imgs = null;
        ImageViewer imgV;
+     
+       TextField tsearch = new TextField();
+       Button search = new Button("Chercher");
+      
+       add(tsearch);
+       add(search);
+       
+       
        EncodedImage placeholder1 = EncodedImage.createFromImage(FontImage.createMaterial(FontImage.MATERIAL_IMAGE, "MultiButton", 8), true);
        ConnectionRequest connectionRequest;
         connectionRequest = new ConnectionRequest() {
             @Override
             protected void readResponse(InputStream input) throws IOException {
-                // Parse the JSON response
+               
                 JSONParser jsonParser = new JSONParser();
                 Map<String, Object> response;
                 response = jsonParser.parseJSON(new InputStreamReader(input));
                 //Log.p("DEBUG3"+response) ;
-                // Extract the articles from the response
+                // EXTRACT THE ARTCILES FROM THE REPONSE
                 ArrayList<Map<String, Object>> articlesData = (ArrayList<Map<String, Object>>) response.get("articles");
                 Log.p("articlesDATA : "+articlesData);
                 for (Map<String, Object> articleData : articlesData) {
@@ -76,12 +86,14 @@ public class ArticleListForm extends Form {
                     Log.p("ONE ARTICLE : "+article.toString());
                     articles.add(article);
                 }
-              // Create the UI components
+            
+                
+                // CREATE THE UI COMPONENTS
                 for (Article article : articles) {
                     MultiButton mb = new MultiButton(article.getTitre());
                     mb.setText(article.getTitre());
 
-                    Log.p("TITRE"+article.getTitre());
+                    Log.p("TITRE: "+article.getTitre());
                     Log.p("GET IMAGE : "+article.getImage());
                     mb.setTextLine2("details");
                     mb.addActionListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
@@ -105,17 +117,29 @@ public class ArticleListForm extends Form {
                     //hi.add();
                   
                     cnt.add(imgV);
-                    cnt.add(mb);
-                   Slider starRankSlider = createStarRankSlider();
+                   
+                    Slider starRankSlider = createStarRankSlider();
                     cnt.add(FlowLayout.encloseCenter(starRankSlider));
+                    
+                    
                     int rating = starRankSlider.getProgress();
-                      Log.p("RATING"+rating);
-                    //log slider here
+                    Log.p("RATING: "+rating);
+                    
+                    cnt.add(mb);
+                    
+                   
                     cnt.setWidth(deviceWidth);
                     cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     cnt.getStyle().setMargin(20, 20, 0, 0);
+                    
+                   
+                    
+                    
+                    
                     add(cnt);
+                    
+                    
                     refreshTheme();
                     // Execute code after image has loaded
                 }  
@@ -145,11 +169,19 @@ public class ArticleListForm extends Form {
                 starRank.setEditable(true);
                 starRank.setMinValue(0);
                 starRank.setMaxValue(5);
-                
-                Font fnt = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
+                 Font fnt = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL);
 
                 Style s = new Style(0xffff33, 0, fnt, (byte)0);
+               
                 Image fullStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
+                
+                starRank.addActionListener(e -> {
+                        int rating = starRank.getProgress();
+                        initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
+                        Log.p("RATING: " + rating);
+                    });
+                 
+               
                 s.setOpacity(100);
                 s.setFgColor(0);
                 Image emptyStar = FontImage.createMaterial(FontImage.MATERIAL_STAR, s).toImage();
@@ -158,12 +190,13 @@ public class ArticleListForm extends Form {
                 initStarRankStyle(starRank.getSliderFullSelectedStyle(), fullStar);
                 initStarRankStyle(starRank.getSliderFullUnselectedStyle(), fullStar);
                 starRank.setPreferredSize(new Dimension(fullStar.getWidth() * 5, fullStar.getHeight()));
+                
                 return starRank; 
             }
         };
 
         // Set the URL of your Symfony API
-        connectionRequest.setUrl("http://127.0.0.1:8000/getAllArticles");
+        connectionRequest.setUrl(Statics.BASE_URL+"/getAllArticles");
 
         // Send the request asynchronously
         connectionRequest.setHttpMethod("GET");
