@@ -1,8 +1,14 @@
 package com.mycompany.entities;
 
 import com.mycompany.utils.Roles;
+import javafx.scene.image.Image;
+
 
 public class Utilisateur {
+    
+     /**
+     * @Ignore()
+     */
     private int id_user;
     private String password,nom,prenom,email,adresse,avatar_url;
     public  Roles role;
@@ -16,22 +22,26 @@ public class Utilisateur {
         this.adresse = adresse;
         this.avatar_url = avatar_url;
         this.role = role;
+     
     }
 
-    public  Utilisateur(){
-
-    }
-    public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url,Roles role,int archived) {
+    public Utilisateur(String password, String nom, String prenom, String email, String adresse, String avatar_url, Roles role, int archived) {
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
         this.avatar_url = avatar_url;
-        this.role= role;
+        this.role = role;
         this.archived = archived;
+    }
+
+
+
+    public  Utilisateur(){
 
     }
+  
 
     public Utilisateur( String password, String nom, String prenom, String email, String adresse, String avatar_url, Roles role,int id_user, int archived) {
         this.password = password;
@@ -75,6 +85,12 @@ public class Utilisateur {
     public Utilisateur(String email, String password, String role) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+
+    public Utilisateur(int id, String nom, String prenom, String adresse, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
 
     public int getArchived() {

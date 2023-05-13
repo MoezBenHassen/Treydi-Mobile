@@ -33,6 +33,17 @@ public class Coupon {
         this.id_categorie = id_categorie;
         this.id_user = id_user;
     }
+    
+     
+    public Coupon(String titre_coupon, String description_coupon, String etat_coupon, String code, String date_expiration) {
+      
+        this.titre_coupon = titre_coupon;
+        this.description_coupon = description_coupon;
+        this.etat_coupon = etat_coupon;
+        this.code = code;
+        this.date_expiration = date_expiration;
+     
+    }
 
     public int getId() {
         return id;

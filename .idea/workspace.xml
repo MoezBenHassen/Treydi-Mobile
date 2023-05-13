@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8bd201e4-1667-4a23-9474-68e7ca63f60e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/Treydi-Mobile.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/GoogleMaps.cn1lib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/GoogleMaps.ver" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/META-INF/codenameone/com.codenameone/googlemaps-common/codenameone_library_appended.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/META-INF/codenameone/com.codenameone/googlemaps-common/codenameone_library_required.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/InternalNativeMaps.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3$5$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$6.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$7.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$BrowserBridge.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$MapObject.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer$MarkerOptions.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapContainer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapLayout$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com/codename1/googlemaps/MapLayout.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com_codename1_googlemaps.cn1mf.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/cls/com_codename1_googlemaps_MapContainer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/native/android/com/codename1/googlemaps/InternalNativeMapsImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/native/ios/com_codename1_googlemaps_InternalNativeMapsImpl.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/native/ios/com_codename1_googlemaps_InternalNativeMapsImpl.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/native/javascript/com_codename1_googlemaps_InternalNativeMaps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/native/javase/com/codename1/googlemaps/InternalNativeMapsImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/impl/native/win/com/codename1/googlemaps/InternalNativeMapsImpl.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/native/internal_tmp/com/codename1/googlemaps/InternalNativeMapsImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/native/internal_tmp/com/codename1/googlemaps/InternalNativeMapsImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/company/gui/EditProfile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/company/gui/ForgotPassword.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/company/gui/Livraison/MapForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/company/gui/Livraison/MesLivraisonLivreur.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/company/gui/Profile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/mycompany/entities/Livraison.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Versions.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Versions.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codenameone_settings.properties" beforeDir="false" afterPath="$PROJECT_DIR$/codenameone_settings.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/EchangeList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/Livraison/EchangeList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/EchangeListLivreur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/Livraison/EchangeListLivreur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/ItemsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/ItemsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/LivraisonList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/SessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/SignInForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/SignInForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/gui/SignUpForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/gui/SignUpForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/entities/Echange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/entities/Echange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/entities/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/entities/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/entities/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/entities/Utilisateur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/myapp/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/myapp/MyApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/services/ItemsServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/services/ItemsServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/services/ServiceEchange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/services/ServiceEchange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/services/ServiceLivraison.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/services/ServiceLivraison.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/mycompany/services/ServiceUtilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/mycompany/services/ServiceUtilisateur.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2PfAE7SSNI7r1EP5PRzLJM6ibwB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Marayed/Desktop/symfony integrated mobile work/Treydi-Web&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8bd201e4-1667-4a23-9474-68e7ca63f60e" name="Changes" comment="" />
+      <created>1683837648565</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683837648565</updated>
+      <workItem from="1683837651656" duration="67000" />
+      <workItem from="1683950732988" duration="65000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

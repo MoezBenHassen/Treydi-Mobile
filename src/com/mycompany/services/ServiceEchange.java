@@ -12,6 +12,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Echange;
 import com.mycompany.entities.Item;
+import com.mycompany.entities.Utilisateur;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +61,20 @@ public class ServiceEchange {
                     List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapEchange.get("echanges");
                     for (Map<String, Object> obj : listOfMaps) {
                         Echange echange = new Echange();
+                        
+                        Map<String, Object> user1Map = (Map<String, Object>) obj.get("user1");
+                        Map<String, Object> user2Map = (Map<String, Object>) obj.get("user2");
+                        //user1
+                        Utilisateur user1 = new Utilisateur();
+                        user1.setId_user((int) Float.parseFloat(user1Map.get("id").toString()));
+                        user1.setPrenom((String) user1Map.get("prenom"));
+                        user1.setAdresse((String) user1Map.get("adresse"));
+                        
+                        //user2
+                        Utilisateur user2 = new Utilisateur();
+                        user2.setId_user((int) Float.parseFloat(user2Map.get("id").toString()));
+                        user2.setPrenom((String) user2Map.get("prenom"));
+                        user2.setAdresse((String) user2Map.get("adresse"));
                         
                         List<Map<String, Object>> itemMaps = (List<Map<String, Object>>) obj.get("echange_items");
                         List<Item> items = new ArrayList<>();
@@ -125,6 +140,21 @@ public class ServiceEchange {
                     for (Map<String, Object> obj : listOfMaps) {
                         Echange echange = new Echange();
                         
+                        Map<String, Object> user1Map = (Map<String, Object>) obj.get("user1");
+                        Map<String, Object> user2Map = (Map<String, Object>) obj.get("user2");
+                        //user1
+                        Utilisateur user1 = new Utilisateur();
+                        user1.setId_user((int) Float.parseFloat(user1Map.get("id").toString()));
+                        user1.setPrenom((String) user1Map.get("prenom"));
+                        user1.setAdresse((String) user1Map.get("adresse"));
+                        
+                        //user2
+                        Utilisateur user2 = new Utilisateur();
+                        user2.setId_user((int) Float.parseFloat(user2Map.get("id").toString()));
+                        user2.setPrenom((String) user2Map.get("prenom"));
+                        user2.setAdresse((String) user2Map.get("adresse"));
+                     
+                        
                         List<Map<String, Object>> itemMaps = (List<Map<String, Object>>) obj.get("echange_items");
                         List<Item> items = new ArrayList<>();
                         for (Map<String, Object> itemMap : itemMaps) {
@@ -145,11 +175,12 @@ public class ServiceEchange {
                         echange.setTitre_echange(titre);
                         float id_echange = Float.parseFloat(obj.get("id").toString());
                         echange.setId_echange((int) id_echange);
-                        float id_user1 = Float.parseFloat(obj.get("user1").toString());
-                        echange.setId_user1((int) id_user1);
-                        float id_user2 = Float.parseFloat(obj.get("user2").toString());
-                        echange.setId_user2((int) id_user2);
                         echange.setItems(items);
+                        echange.setId_user1(user1.getId_user());
+                        echange.setId_user2(user2.getId_user());
+                        
+                        echange.setUser1(user1);
+                        echange.setUser2(user2);
 
                         //insert data into ArrayList result
                         result.add(echange);

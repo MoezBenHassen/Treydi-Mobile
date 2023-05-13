@@ -7,6 +7,7 @@
     <image name="head.png"  />
     <image name="leg.png"  />
     <image name="Screenshot_2.jpg"  />
+    <image name="telecharger.png"  />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
     </theme>

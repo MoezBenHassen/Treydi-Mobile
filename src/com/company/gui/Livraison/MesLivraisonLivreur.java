@@ -2,35 +2,33 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.company.gui;
+package com.company.gui.Livraison;
 
 import com.codename1.components.MultiButton;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
 import com.mycompany.entities.Echange;
 import com.mycompany.entities.Item;
-import com.mycompany.services.ServiceEchange;
+import com.mycompany.entities.Livraison;
 import com.mycompany.services.ServiceLivraison;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author Marayed
  */
-public class EchangeListLivreur extends Form {
+public class MesLivraisonLivreur extends Form {
 
-    public EchangeListLivreur(Form previous) {
-        setTitle("Liste des Echanges");
+    public MesLivraisonLivreur(Form previous) {
+        setTitle("Mes Livraisons");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
         getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
             // handle click event
@@ -39,10 +37,14 @@ public class EchangeListLivreur extends Form {
         getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
             previous.showBack();
         });
-        ArrayList<Echange> list = new ServiceEchange().getInstance().affichageEcahngesLivreur();
 
-        for (Echange echanges : list) {
-            MultiButton mb = new MultiButton(echanges.getTitre_echange());
+        ServiceLivraison sl = new ServiceLivraison();
+
+        ArrayList<Livraison> list = ServiceLivraison.getInstance().listMesLivraisonLivreur();
+
+        for (Livraison livraison : list) {
+            MultiButton mb = new MultiButton(livraison.getEchange().getTitre_echange());
+            Echange echanges = livraison.getEchange();
             mb.setUIID("Label");
 
             Container card = new Container(new BoxLayout(BoxLayout.Y_AXIS));
@@ -52,19 +54,30 @@ public class EchangeListLivreur extends Form {
             card.getStyle().setPadding(10, 10, 10, 10);
             card.getStyle().setBorder(Border.createLineBorder(2, 0xCCCCCC));
 
-            card.add(mb);
-
-            // AFFICHAGE
             mb.addActionListener(evt -> {
                 Form detailsForm = new Form(new GridLayout(1, 2));
                 detailsForm.setTitle(echanges.getTitre_echange()); // Set the form title to the exchange title
-                getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
+                detailsForm.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
                     previous.showBack();
                 });
+
                 ArrayList<Item> allItems = (ArrayList<Item>) echanges.getItems();
+                Label user1_nom = new Label("Prénom: " + echanges.getUser1().getPrenom());
+                Label user2_nom = new Label("Prénom: " + echanges.getUser2().getPrenom());
+                Label user1_adresse = new Label("Adresse: " + echanges.getUser1().getAdresse());
+                Label user2_adresse = new Label("Adresse: " + echanges.getUser2().getAdresse());
+
+                Container labelContainer_user1nom = new Container(new BorderLayout());
+                Container labelContainer_user2nom = new Container(new BorderLayout());
+                Container labelContainer_user1_adresse = new Container(new BorderLayout());
+                Container labelContainer_user2_adresse = new Container(new BorderLayout());
+
+                labelContainer_user1nom.add(BorderLayout.CENTER, user1_nom);
+                labelContainer_user1_adresse.add(BorderLayout.CENTER, user1_adresse);
                 Container items1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                items1.add(labelContainer_user1nom);
+                items1.add(labelContainer_user1_adresse);
                 items1.getStyle().setBgColor(0xFFFFFF);
-                items1.getStyle().setBgTransparency(255);
                 items1.getStyle().setMargin(5, 5, 0, 0);
                 items1.getStyle().setPadding(10, 10, 10, 10);
                 items1.getStyle().setBorder(Border.createLineBorder(2, 0xCCCCCC));
@@ -85,8 +98,12 @@ public class EchangeListLivreur extends Form {
                         items1.add(aa);
                     }
                 }
-
+                
+                labelContainer_user2_adresse.add(BorderLayout.CENTER, user2_adresse);
+                labelContainer_user2nom.add(BorderLayout.CENTER, user2_nom);
                 Container items2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                items2.add(labelContainer_user2nom);
+                items2.add(labelContainer_user2_adresse);
                 items2.getStyle().setBgColor(0xFFFFFF);
                 items2.getStyle().setBgTransparency(255);
                 items2.getStyle().setMargin(5, 5, 0, 0);
@@ -110,22 +127,41 @@ public class EchangeListLivreur extends Form {
                     }
                 }
 
-                // Create the accept button
-                Button acceptButton = new Button("Accept");
-                acceptButton.addActionListener(e -> {
-                    ServiceLivraison sl = new ServiceLivraison();
-                    System.out.println(echanges.getId_echange());
-                    sl.accepterLivraison(echanges.getId_echange());
+                // Create the delete button
+                Button deleteButton = new Button("Delete");
+                deleteButton.addActionListener(e -> {
+                    if (Dialog.show("Confirmation", "Voulez-vous supprimer cette livraison ?", "Oui", "Non")) {
+                        sl.supprimerLivraison(livraison.getId_livraison(), echanges.getId_echange());
+                        showBack();
+                    }
+                });
+
+                Button terminerButton = new Button("Terminer");
+                terminerButton.addActionListener(e -> {
+                    sl.terminerLivraison(livraison.getId_livraison());
+                });
+
+                Button map = new Button("Map");
+                map.addActionListener(e -> {
+                    new MapForm();
                 });
 
                 // Add the components to the form
                 detailsForm.add(items1);
                 detailsForm.add(items2);
-                detailsForm.add(acceptButton);
+                detailsForm.add(deleteButton);
+                detailsForm.add(map);
+
+                if ("En_Cours".equals(livraison.getEtat())) {
+                    detailsForm.add(terminerButton);
+                }
 
                 detailsForm.show();
             });
 
+            card.add(mb);
+
+            // AFFICHAGE
             add(card);
         }
     }
