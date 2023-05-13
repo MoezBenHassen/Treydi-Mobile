@@ -29,7 +29,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.ImageIO;
 import com.mycompany.entities.Categorie_Items;
 import com.mycompany.entities.Item;
-import com.company.gui.ItemsServices;
+import com.mycompany.services.ItemsServices;
 import static com.mycompany.utils.Statics.BASE_URL;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -50,6 +50,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.codename1.ui.Image;
 import com.codename1.util.StringUtil;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -59,7 +60,7 @@ public class ItemsList extends Form {
 
     //////////////////////////////////////////////////////////////////////////////
     //Initial Items
-    int user = 5;
+    int user = SessionManager.getId();
     ArrayList<Item> items = new ArrayList<>();
     ArrayList<Categorie_Items> catitems = new ArrayList<>();
 
@@ -76,7 +77,7 @@ public class ItemsList extends Form {
                 List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                 for (Map<String, Object> item : itemss) {
 
-                    Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue());
+                    Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue(), (String) item.get("username"));
                     items.add(itemx);
 
                 }
@@ -127,7 +128,7 @@ public class ItemsList extends Form {
 
         search.addActionListener(e -> {
 
-            String keyword = tsearch.getText();
+            String keyword = tsearch.getText().trim();
 
             if (keyword.isEmpty()) {
                 removeAll();
@@ -141,19 +142,21 @@ public class ItemsList extends Form {
                 }
 
             } else {
+                StringTokenizer tokenizer = new StringTokenizer(keyword);
                 ArrayList<Item> filteredItems = new ArrayList<>();
-                for (Item item : items) {
-
-                    if (item.getLibelle().contains(keyword)) {
-                        filteredItems.add(item);
-
+                while (tokenizer.hasMoreTokens()) {
+                    String kw = tokenizer.nextToken();
+                    for (Item item : items) {
+                        if (item.getLibelle().toLowerCase().contains(kw.toLowerCase())) {
+                            filteredItems.add(item);
+                            // at least one keyword found, so add the item and move on to the next token
+                        }
                     }
                 }
-
                 removeAll();
-               add(search);
-        add(pdf);
-        add(tsearch);
+                add(search);
+                add(pdf);
+                add(tsearch);
                 add(new Label("─────────────────────────────────────────"));
 
                 for (Item ix : filteredItems) {
@@ -284,7 +287,7 @@ public class ItemsList extends Form {
 
                         } else {
 
-                            Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), user, Integer.parseInt(result), 1, 0, 0, 0);
+                            Item i = new Item(tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), user, Integer.parseInt(result), 1, 0, 0, 0, "Nouvel Item Ajouté !");
 
                             JSONObject itemJson = new JSONObject();
                             itemJson.put("libelle", i.getLibelle());
@@ -347,13 +350,13 @@ public class ItemsList extends Form {
             encodedImage = EncodedImage.create(decodedBytes);
         } else {
             encodedImage = URLImage.createToStorage(
-                    EncodedImage.createFromImage(Image.createImage(300, 300, 0x000000), true),
+                    EncodedImage.createFromImage(Image.createImage(750, 750, 0x000000), true),
                     imageUrl,
                     imageUrl,
                     URLImage.RESIZE_SCALE_TO_FILL);
         }
 
-        Image xx = encodedImage.scaled(290, 290);
+        Image xx = encodedImage.scaled(320, 320);
         Button b = new Button(xx);
 
         //////////////////////////////////////////////////////////////////////////////
@@ -362,6 +365,7 @@ public class ItemsList extends Form {
 
             JSONObject itemJsonx = new JSONObject();
             itemJsonx.put("id", item.getId_item());
+            itemJsonx.put("idu", user);
             String endpointUrlx = BASE_URL + "/item/mobile/views/" + item.getId_item() + "_" + user;
             ConnectionRequest request10 = new ConnectionRequest();
             request10.setUrl(endpointUrlx);
@@ -376,7 +380,6 @@ public class ItemsList extends Form {
                 }
             });
             NetworkManager.getInstance().addToQueueAndWait(request10);
-
             Label lLibelled = new Label(item.getLibelle());
             String imageUrld = item.getImageurl();
             ImageViewer imgd = null;
@@ -460,6 +463,9 @@ public class ItemsList extends Form {
             fd.add(new Label("Type et Etat :"));
             fd.add(lTypeEtatd);
             fd.add(new Label("─────────────────────────────────────────"));
+            fd.add(new Label("Utilisateur :"));
+            fd.add(new Label(item.getUsername()));
+            fd.add(new Label("─────────────────────────────────────────"));
             fd.add(new Label("Commentaire :"));
             TextArea comta = new TextArea();
             comta.setRows(5);
@@ -504,7 +510,34 @@ public class ItemsList extends Form {
 
             fd.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
                 // Navigate back to the previous form
-                showBack();
+                ConnectionRequest request = new ConnectionRequest() {
+                    @Override
+                    protected void readResponse(InputStream input) throws IOException {
+                        items = new ArrayList<>();
+                        JSONParser parser = new JSONParser();
+                        System.out.println(parser);
+                        Map<String, Object> response = parser.parseJSON(new InputStreamReader(input));
+                        List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
+                        for (Map<String, Object> item : itemss) {
+
+                            Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("views")).intValue(), ((Double) item.get("dislikes")).intValue(), (String) item.get("username"));
+                            items.add(itemx);
+
+                        }
+
+                        removeAll();
+                        
+                        for (Item i : items) {
+                            addItem(i);
+                        }
+                        show();
+showBack();
+                    }
+
+                };
+                request.setUrl(BASE_URL + "/item/mobile/list");
+                request.setHttpMethod("GET");
+                NetworkManager.getInstance().addToQueue(request);
             });
 
             fd.show();
@@ -694,7 +727,7 @@ public class ItemsList extends Form {
 
                         } else {
 
-                            Item i = new Item(item.getId_item(), tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), user, Integer.parseInt(resultt), 1, 0, 0, 0);
+                            Item i = new Item(item.getId_item(), tfLibelle.getText(), taDescription.getText(), stType, stEtat, encodedImagee.toString(), user, Integer.parseInt(resultt), 1, 0, 0, 0, "Item Modifié !");
 
                             JSONObject itemJson = new JSONObject();
                             itemJson.put("id", item.getId_item());
@@ -731,7 +764,7 @@ public class ItemsList extends Form {
                                     List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                                     for (Map<String, Object> item : itemss) {
 
-                                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue());
+                                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue(), (String) item.get("username"));
                                         items.add(itemx);
 
                                     }
@@ -791,7 +824,7 @@ public class ItemsList extends Form {
                     List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                     for (Map<String, Object> item : itemss) {
 
-                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("views")).intValue(), ((Double) item.get("dislikes")).intValue());
+                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("views")).intValue(), ((Double) item.get("dislikes")).intValue(), (String) item.get("username"));
                         items.add(itemx);
 
                     }
@@ -847,7 +880,7 @@ public class ItemsList extends Form {
                     List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                     for (Map<String, Object> item : itemss) {
 
-                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue());
+                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue(), (String) item.get("username"));
                         items.add(itemx);
 
                     }
@@ -869,7 +902,7 @@ public class ItemsList extends Form {
                 }
         );
 
-        Label lViews = new Label("👁 : " + Integer.toString(item.getViews()));
+        Label lViews = new Label(item.getUsername() + " | Vues : " + Integer.toString(item.getViews()));
 
         C3.add(like);
 
