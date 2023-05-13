@@ -3,6 +3,10 @@ package com.mycompany.entities;
 import com.mycompany.utils.Roles;
 
 public class Utilisateur {
+    
+     /**
+     * @Ignore()
+     */
     private int id_user;
     private String password,nom,prenom,email,adresse,avatar_url;
     public  Roles role;

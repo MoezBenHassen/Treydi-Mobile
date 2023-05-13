@@ -83,6 +83,7 @@ public class CouponsList extends Form {
     mycoupons.getStyle().setMargin(30, 0, 0, 0);
     buttonContainer.add(mycoupons);
 
+    Button PDF = new Button("Génerer un PDF de mes coupons:");
     // Add the button container to the center container
     centerContainer.add(buttonContainer);
 
@@ -177,7 +178,7 @@ public class CouponsList extends Form {
         Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
         showQRCode(code); 
     } else {
-        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
+        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon! Votre score est insuffisant.", "OK", null);
     }
     
 });
@@ -188,7 +189,7 @@ public class CouponsList extends Form {
         Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
         showQRCode(code); 
     } else {
-        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
+        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon! Votre score est insuffisant.", "OK", null);
     }
 });
 
@@ -198,7 +199,7 @@ CE.addActionListener((ActionListener) (ActionEvent evt1) -> {
         Dialog.show("Succès", "Le coupon a été créé avec succès", "OK", null);
         showQRCode(code); 
     } else {
-        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon", "OK", null);
+        Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon! Votre score est insuffisant.", "OK", null);
     }
 });
 

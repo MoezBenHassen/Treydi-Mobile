@@ -54,11 +54,8 @@ public String affecterCouponCasual () {
     
      
      String baseUrl1 = "http://localhost:8000/";
-     String addCouponRoute1 = "couponcasual";
-     String url1 = baseUrl1 + addCouponRoute1 + "?titre_coupon=" + coupon.getTitre_coupon() 
-    + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() 
-    + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon()
-    + "&id_user_id=" + String.valueOf(coupon.getId_user())+ "&id_categorie_id=" + String.valueOf(coupon.getId_categorie());
+     String addCouponRoute1 = "addcoupon";
+     String url1 = baseUrl1 + addCouponRoute1 + "?titre_coupon=" + coupon.getTitre_coupon() + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon()+ "&id_user_id=" + String.valueOf(coupon.getId_user())+ "&id_categorie_id=" + String.valueOf(coupon.getId_categorie());
 
 
         req.setUrl(url1);
@@ -87,11 +84,8 @@ public String affecterCouponCasual () {
     
      
      String baseUrl1 = "http://localhost:8000/";
-     String addCouponRoute1 = "couponspecial"; 
-     String url1 = baseUrl1 + addCouponRoute1 + "?titre_coupon=" + coupon.getTitre_coupon() 
-    + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() 
-    + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon()
-    + "&id_user_id=" + String.valueOf(coupon.getId_user())+ "&id_categorie_id=" + String.valueOf(coupon.getId_categorie());
+     String addCouponRoute1 = "addcoupon"; 
+     String url1 = baseUrl1 + addCouponRoute1 + "?titre_coupon=" + coupon.getTitre_coupon() + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon()+ "&id_user_id=" + String.valueOf(coupon.getId_user())+ "&id_categorie_id=" + String.valueOf(coupon.getId_categorie());
 
 
         req.setUrl(url1);
@@ -119,11 +113,8 @@ public String affecterCouponCasual () {
     
      
      String baseUrl1 = "http://localhost:8000/";
-     String addCouponRoute1 = "couponexclusif";
-     String url1 = baseUrl1 + addCouponRoute1 + "?titre_coupon=" + coupon.getTitre_coupon() 
-    + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() 
-    + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon()
-    + "&id_user_id=" + String.valueOf(coupon.getId_user())+ "&id_categorie_id=" + String.valueOf(coupon.getId_categorie());
+     String addCouponRoute1 = "addcoupon";
+     String url1 = baseUrl1 + addCouponRoute1 + "?titre_coupon=" + coupon.getTitre_coupon() + "&description_coupon=" + coupon.getDescription_coupon() + "&code=" + coupon.getCode() + "&date_expiration=" + coupon.getDate_expiration() + "&etat_coupon=" + coupon.getEtat_coupon() + "&id_user_id=" + String.valueOf(coupon.getId_user())+ "&id_categorie_id=" + String.valueOf(coupon.getId_categorie());
 
         req.setUrl(url1);
         req.addResponseListener((e) -> {
