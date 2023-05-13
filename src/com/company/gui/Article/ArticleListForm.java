@@ -39,25 +39,30 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Map;
+//import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
+
 
 
 public class ArticleListForm extends Form {
     List<Article> articles = new ArrayList<>();
+    List<MultiButton> articleButtons = new ArrayList<>();
+    EncodedImage placeholder1 = EncodedImage.createFromImage(FontImage.createMaterial(FontImage.MATERIAL_IMAGE, "MultiButton", 8), true);
     public ArticleListForm(Form previous) {
         //add button in toolbar 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, ev -> { previous.showBack(); } );
+       getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, ev -> { previous.showBack(); } );
        setTitle("Our Blog");
        Image imgs = null;
        ImageViewer imgV;
-     
+     /*
        TextField tsearch = new TextField();
        Button search = new Button("Chercher");
       
        add(tsearch);
        add(search);
        
+       */
        
-       EncodedImage placeholder1 = EncodedImage.createFromImage(FontImage.createMaterial(FontImage.MATERIAL_IMAGE, "MultiButton", 8), true);
        ConnectionRequest connectionRequest;
         connectionRequest = new ConnectionRequest() {
             @Override
@@ -86,8 +91,26 @@ public class ArticleListForm extends Form {
                     Log.p("ONE ARTICLE : "+article.toString());
                     articles.add(article);
                 }
-            
-                
+              TextField searchField = new TextField();
+        Button searchButton = new Button("Search");
+        searchButton.addActionListener(e -> {
+            String query = searchField.getText().toLowerCase();
+           List<Article> filteredArticles = new ArrayList<>();
+            for (Article article : articles) {
+                if (article.getTitre().toLowerCase().contains(query)) {
+                    filteredArticles.add(article);
+                }
+            }
+            createArticleButtons(filteredArticles);
+
+        });
+
+        // Add the search components to the form
+        add(FlowLayout.encloseCenter(searchField, searchButton));
+
+        // Create the article buttons and add them to the form
+        createArticleButtons(articles);
+      
                 // CREATE THE UI COMPONENTS
                 for (Article article : articles) {
                     MultiButton mb = new MultiButton(article.getTitre());
@@ -133,10 +156,7 @@ public class ArticleListForm extends Form {
                     imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
                     cnt.getStyle().setMargin(20, 20, 0, 0);
                     
-                   
-                    
-                    
-                    
+
                     add(cnt);
                     
                     
@@ -152,7 +172,51 @@ public class ArticleListForm extends Form {
             protected void handleErrorResponseCode(int code, String message) {
                 // Handle errors here
             }
-                public void showForm() {
+   
+            private void createArticleButtons(List<Article> articleList) {
+               // Remove any existing article buttons from the form
+               for (MultiButton mb : articleButtons) {
+                   removeComponent(mb);
+               }
+               articleButtons.clear();
+
+               // Create new article buttons for the given list of articles
+               for (Article article : articleList) {
+                   MultiButton mb = new MultiButton(article.getTitre());
+                   mb.setText(article.getTitre());
+                   mb.setTextLine2("details");
+                   mb.addActionListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                   Image img=null;
+                   img = URLImage.createToStorage(placeholder1,
+                       article.getImage(),
+                       article.getImage(),
+                       URLImage.RESIZE_SCALE);
+                   int deviceWidth = Display.getInstance().getDisplayWidth();
+                   img = img.scaledWidth(deviceWidth);
+                   int height = (int)(563.0 / 1133.0 *deviceWidth);
+                   img = img.scaledHeight(height);
+                   img = img.scaled(deviceWidth, height);
+                   ImageViewer imgV = new ImageViewer(img);
+                   Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                   Slider starRankSlider = createStarRankSlider();
+                   
+                   cnt.add(imgV);
+                   cnt.add(FlowLayout.encloseCenter(starRankSlider));
+                   cnt.add(mb);
+                   
+                   cnt.setWidth(deviceWidth);
+                   cnt.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                   imgV.addPointerPressedListener(e -> new ArticleDetailsForm(article, ArticleListForm.this).show());
+                   cnt.getStyle().setMargin(20, 20, 0, 0);
+                   add(cnt);
+                   articleButtons.add(mb);
+               }
+
+               // Refresh the UI theme
+               refreshTheme();
+           }
+     
+                  public void showForm() {
                  
                 }
 
@@ -193,6 +257,7 @@ public class ArticleListForm extends Form {
                 
                 return starRank; 
             }
+            
         };
 
         // Set the URL of your Symfony API
@@ -203,4 +268,5 @@ public class ArticleListForm extends Form {
         NetworkManager.getInstance().addToQueue(connectionRequest);
 
     }
+    
 }
