@@ -19,6 +19,7 @@ import com.codename1.ui.plaf.Border;
 import com.mycompany.entities.Coupon;
 import java.util.ArrayList;
 import com.mycompany.services.CouponService;
+import com.mycompany.services.PDF;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Image;
 import com.codename1.ui.plaf.Style;
@@ -67,30 +68,25 @@ public class CouponsList extends Form {
 
     add(card);
 
-    Container centerContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-    centerContainer.getStyle().setAlignment(Component.CENTER);
+   Container centerContainer = new Container(new BorderLayout());
 
-    // Create a new container for the scoreboard and mycoupons buttons
-    Container buttonContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+Container buttonContainer = new Container(new FlowLayout(Component.CENTER));
+Button scoreboardButton = new Button("Scoreboard");
+buttonContainer.add(scoreboardButton);
 
-    Button scoreboardButton = new Button("Scoreboard");
-    // Add some margin between the buttons
-    scoreboardButton.getStyle().setMargin(400, 0, 0, 0);
-    buttonContainer.add(scoreboardButton);
+Button mycoupons = new Button("Mes Coupons");
+buttonContainer.add(mycoupons);
 
-    Button mycoupons = new Button("Mes Coupons");
-    // Add some margin between the buttons
-    mycoupons.getStyle().setMargin(30, 0, 0, 0);
-    buttonContainer.add(mycoupons);
+centerContainer.addComponent(BorderLayout.NORTH, buttonContainer);
 
-    Button PDF = new Button("Génerer un PDF de mes coupons:");
-    // Add the button container to the center container
-    centerContainer.add(buttonContainer);
+Button pdf_btn = new Button("Génerer un PDF de Mes Coupons");
+centerContainer.addComponent(BorderLayout.CENTER, pdf_btn);
 
-    // Set the center container to take up all available space
-    centerContainer.setScrollableY(true);
+// Set the center container to take up all available space
+centerContainer.setScrollableY(true);
 
-    add(centerContainer);
+add(centerContainer);
+
 
         mycoupons.addActionListener((ActionListener) (ActionEvent evt1) -> {
              
@@ -168,9 +164,7 @@ public class CouponsList extends Form {
 });
 
       
-
-    
-    CouponService cs= new CouponService();
+      CouponService cs= new CouponService();
 
     CM.addActionListener((ActionListener) (ActionEvent evt1) -> {
     String code= cs.affecterCouponCasual();
@@ -180,6 +174,14 @@ public class CouponsList extends Form {
     } else {
         Dialog.show("Erreur", "Une erreur s'est produite lors de la création du coupon! Votre score est insuffisant.", "OK", null);
     }
+    
+});
+
+    ArrayList<Coupon> coupons = cs.MyCoupons();
+    PDF pf= new PDF();
+    pdf_btn.addActionListener((ActionListener) (ActionEvent evt1) -> {
+    pf.generatePdfFromItems(coupons);    
+    
     
 });
 
