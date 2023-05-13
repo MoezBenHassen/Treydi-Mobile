@@ -4,38 +4,58 @@ package com.mycompany.entities;
  *
  * @author Marayed
  */
-
 import java.util.Date;
 import java.util.List;
 
 public class Echange {
+
     private int id_echange;
     private String titre_echange;
     private int id_user1;
     private int id_user2;
     private Date date_echange;
-    public enum ETAT {Non_Accepter, Accepter};
+
+    public enum ETAT {
+        Non_Accepter, Accepter
+    };
     private List items;
+    private Utilisateur user1, user2;
 
+    public Utilisateur getUser1() {
+        return user1;
+    }
 
-    public Echange() {}
+    public void setUser1(Utilisateur user1) {
+        this.user1 = user1;
+    }
+
+    public Utilisateur getUser2() {
+        return user2;
+    }
+
+    public void setUser2(Utilisateur user2) {
+        this.user2 = user2;
+    }
+
+    public Echange() {
+    }
 
     public Echange(int id_echange) {
         this.id_echange = id_echange;
     }
 
-    public Echange( int id_user1, int id_user2) {
+    public Echange(int id_user1, int id_user2) {
         this.id_user1 = id_user1;
         this.id_user2 = id_user2;
     }
 
-    public Echange( int id_echange, int id_user1, int id_user2){
+    public Echange(int id_echange, int id_user1, int id_user2) {
         this.id_echange = id_echange;
         this.id_user1 = id_user1;
         this.id_user2 = id_user2;
     }
 
-    public Echange(int id_echange, int id_user1, int id_user2, Date date_echange){
+    public Echange(int id_echange, int id_user1, int id_user2, Date date_echange) {
         this.id_echange = id_echange;
         this.id_user1 = id_user1;
         this.id_user2 = id_user2;
@@ -86,7 +106,6 @@ public class Echange {
         this.id_user2 = id_user2;
     }
 
-
     public void setDate_echange(Date date_echange) {
         this.date_echange = date_echange;
     }
@@ -98,16 +117,14 @@ public class Echange {
     public void setItems(List items) {
         this.items = items;
     }
-    
-    
 
     @Override
     public String toString() {
-        return "Echange{" +
-                "id_echange=" + id_echange +
-                ", id_user1=" + id_user1 +
-                ", id_user2=" + id_user2 +
-                ", date='" + date_echange + '\'' +
-                '}';
+        return "Echange{"
+                + "id_echange=" + id_echange
+                + ", id_user1=" + id_user1
+                + ", id_user2=" + id_user2
+                + ", date='" + date_echange + '\''
+                + '}';
     }
 }
