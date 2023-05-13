@@ -129,11 +129,17 @@ public class MesLivraisonLivreur extends Form {
                 terminerButton.addActionListener(e -> {
                     sl.terminerLivraison(livraison.getId_livraison());
                 });
+                
+                Button map = new Button("Map");
+                map.addActionListener(e -> {
+                    new MapForm();
+                });
 
                 // Add the components to the form
                 detailsForm.add(items1);
                 detailsForm.add(items2);
                 detailsForm.add(deleteButton);
+                detailsForm.add(map);
 
                 if ("En_Cours".equals(livraison.getEtat())) {
                     detailsForm.add(terminerButton);
