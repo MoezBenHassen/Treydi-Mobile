@@ -4,10 +4,10 @@ package com.company.gui;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
+
+import com.codename1.ui.TextField;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
-import com.codename1.ui.TextField;
-
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
@@ -16,12 +16,17 @@ import java.util.Vector;
 
 public class SignUpForm extends Form {
     private Button signUpButton;
+    private Button signInButton; 
+
     
     public SignUpForm(Resources res) {
         super("Sign Up", new BoxLayout(BoxLayout.Y_AXIS));
         
                 
- 
+        TextField nom = new TextField("", "Nom", 20, TextField.ANY);
+        TextField prenom = new TextField("", "Prenom", 20, TextField.ANY);
+        TextField adresse = new TextField("", "Adresse", 20, TextField.ANY);
+
         TextField email = new TextField("", "E-Mail", 20, TextField.EMAILADDR);
         TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
         TextField confirmPassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
@@ -37,10 +42,14 @@ public class SignUpForm extends Form {
         ComboBox<String>roles = new ComboBox<>(vectorRole);
         
         signUpButton = new Button("Sign Up");
-        
+        signInButton = new Button("Sign In");
+        add(signInButton);
         
         add(new Label("Create a new account"));
+        add(nom);
+        add(prenom);
         add(email);
+        add(adresse);
         add(password);
         add(confirmPassword);
         add(roles);
@@ -48,10 +57,38 @@ public class SignUpForm extends Form {
 
         // Add action listener to the sign up button
         signUpButton.addActionListener((evt) -> {
-            // Call the signup method of the ServiceUtilisateur class to sign up the user
-            ServiceUtilisateur.getInstance().signup(password, email, confirmPassword, roles, res);
-            Dialog.show("Success","account is saved","OK",null);
+    // Get the text field values
+        String nomValue = nom.getText();
+        String prenomValue = prenom.getText();
+        String adresseValue = adresse.getText();
+        String emailValue = email.getText();
+        String passwordValue = password.getText();
+        String confirmPasswordValue = confirmPassword.getText();
+        String roleValue = roles.getSelectedItem();
+        
+        
+        if (nomValue.isEmpty() || prenomValue.isEmpty() || adresseValue.isEmpty() ||
+            emailValue.isEmpty() || passwordValue.isEmpty() || confirmPasswordValue.isEmpty()) {
+        Dialog.show("Error", "Please fill all the fields", "OK", null);
+        return;
+        }
+        // Check if password and confirm password fields match
+        if (!passwordValue.equals(confirmPasswordValue)) {
+        Dialog.show("Error", "Passwords do not match", "OK", null);
+        return;
+        }
+    
+    
+    // Call the signup method with the text field objects
+        ServiceUtilisateur.getInstance().signup(nom, prenom, adresse, password, email, confirmPassword, roles, res);
+    
+        Dialog.show("Success", "Account is saved", "OK", null);
+    new SignInForm(res).show();
+});
+         signInButton.addActionListener((evt) -> {
             new SignInForm(res).show();
         });
     }
+    
+
 }
