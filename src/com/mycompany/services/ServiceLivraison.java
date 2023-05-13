@@ -117,15 +117,15 @@ public class ServiceLivraison {
                         Map<String, Object> user2Map = (Map<String, Object>) obj.get("user2");
                         //user1
                         Utilisateur user1 = new Utilisateur();
-                        user1.setId_user((int) Float.parseFloat(echangeMap.get("id").toString()));
-                        user1.setPrenom((String) echangeMap.get("prenom"));
-                        user1.setAdresse((String) echangeMap.get("adresse"));
+                        user1.setId_user((int) Float.parseFloat(user1Map.get("id").toString()));
+                        user1.setPrenom((String) user1Map.get("prenom"));
+                        user1.setAdresse((String) user1Map.get("adresse"));
                         
                         //user2
                         Utilisateur user2 = new Utilisateur();
-                        user2.setId_user((int) Float.parseFloat(echangeMap.get("id").toString()));
-                        user2.setPrenom((String) echangeMap.get("prenom"));
-                        user2.setAdresse((String) echangeMap.get("adresse"));
+                        user2.setId_user((int) Float.parseFloat(user2Map.get("id").toString()));
+                        user2.setPrenom((String) user2Map.get("prenom"));
+                        user2.setAdresse((String) user2Map.get("adresse"));
                         
                         //echange
                         Echange echange = new Echange();

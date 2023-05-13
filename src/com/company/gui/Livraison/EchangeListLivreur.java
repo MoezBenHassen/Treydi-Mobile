@@ -11,8 +11,6 @@ import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -22,7 +20,6 @@ import com.mycompany.entities.Item;
 import com.mycompany.services.ServiceEchange;
 import com.mycompany.services.ServiceLivraison;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -31,7 +28,7 @@ import java.util.List;
 public class EchangeListLivreur extends Form {
 
     public EchangeListLivreur(Form previous) {
-        setTitle("Liste des Echanges");
+        setTitle("Liste des Echanges accepter");
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
         getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> {
             // handle click event
@@ -41,7 +38,7 @@ public class EchangeListLivreur extends Form {
             previous.showBack();
         });
         ArrayList<Echange> list = new ServiceEchange().getInstance().affichageEcahngesLivreur();
-
+        
         for (Echange echanges : list) {
             MultiButton mb = new MultiButton(echanges.getTitre_echange());
             mb.setUIID("Label");
@@ -52,9 +49,9 @@ public class EchangeListLivreur extends Form {
             card.getStyle().setMargin(5, 5, 0, 0);
             card.getStyle().setPadding(10, 10, 10, 10);
             card.getStyle().setBorder(Border.createLineBorder(2, 0xCCCCCC));
-
-            card.add(mb);
-
+            
+          
+            
             // AFFICHAGE
             mb.addActionListener(evt -> {
                 Form detailsForm = new Form(new GridLayout(1, 2));
@@ -63,13 +60,22 @@ public class EchangeListLivreur extends Form {
                     previous.showBack();
                 });
                 ArrayList<Item> allItems = (ArrayList<Item>) echanges.getItems();
-                Label user1_nom = new Label("This is my label");
+                System.out.println(echanges.getItems() + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                Label user1_nom = new Label("Prénom: " + echanges.getUser1().getPrenom());
+                Label user2_nom = new Label("Prénom: " + echanges.getUser2().getPrenom());
+                Label user1_adresse = new Label("Adresse: " + echanges.getUser1().getAdresse());
+                Label user2_adresse = new Label("Adresse: " + echanges.getUser2().getAdresse());
 
                 Container labelContainer_user1nom = new Container(new BorderLayout());
+                Container labelContainer_user2nom = new Container(new BorderLayout());
+                Container labelContainer_user1_adresse = new Container(new BorderLayout());
+                Container labelContainer_user2_adresse = new Container(new BorderLayout());
 
                 labelContainer_user1nom.add(BorderLayout.CENTER, user1_nom);
+                labelContainer_user1_adresse.add(BorderLayout.CENTER, user1_adresse);
                 Container items1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
                 items1.add(labelContainer_user1nom);
+                items1.add(labelContainer_user1_adresse);
                 items1.getStyle().setBgColor(0xFFFFFF);
                 items1.getStyle().setMargin(5, 5, 0, 0);
                 items1.getStyle().setPadding(10, 10, 10, 10);
@@ -92,7 +98,11 @@ public class EchangeListLivreur extends Form {
                     }
                 }
 
+                labelContainer_user2_adresse.add(BorderLayout.CENTER, user2_adresse);
+                labelContainer_user2nom.add(BorderLayout.CENTER, user2_nom);
                 Container items2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                items2.add(labelContainer_user2nom);
+                items2.add(labelContainer_user2_adresse);
                 items2.getStyle().setBgColor(0xFFFFFF);
                 items2.getStyle().setBgTransparency(255);
                 items2.getStyle().setMargin(5, 5, 0, 0);
@@ -131,7 +141,7 @@ public class EchangeListLivreur extends Form {
 
                 detailsForm.show();
             });
-
+            card.add(mb);
             add(card);
         }
     }

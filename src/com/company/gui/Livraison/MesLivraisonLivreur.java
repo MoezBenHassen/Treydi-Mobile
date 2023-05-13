@@ -57,19 +57,26 @@ public class MesLivraisonLivreur extends Form {
             mb.addActionListener(evt -> {
                 Form detailsForm = new Form(new GridLayout(1, 2));
                 detailsForm.setTitle(echanges.getTitre_echange()); // Set the form title to the exchange title
-
                 detailsForm.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
                     previous.showBack();
                 });
 
                 ArrayList<Item> allItems = (ArrayList<Item>) echanges.getItems();
-                Label user1_nom = new Label("This is my label");
+                Label user1_nom = new Label("Prénom: " + echanges.getUser1().getPrenom());
+                Label user2_nom = new Label("Prénom: " + echanges.getUser2().getPrenom());
+                Label user1_adresse = new Label("Adresse: " + echanges.getUser1().getAdresse());
+                Label user2_adresse = new Label("Adresse: " + echanges.getUser2().getAdresse());
 
                 Container labelContainer_user1nom = new Container(new BorderLayout());
+                Container labelContainer_user2nom = new Container(new BorderLayout());
+                Container labelContainer_user1_adresse = new Container(new BorderLayout());
+                Container labelContainer_user2_adresse = new Container(new BorderLayout());
 
                 labelContainer_user1nom.add(BorderLayout.CENTER, user1_nom);
+                labelContainer_user1_adresse.add(BorderLayout.CENTER, user1_adresse);
                 Container items1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
                 items1.add(labelContainer_user1nom);
+                items1.add(labelContainer_user1_adresse);
                 items1.getStyle().setBgColor(0xFFFFFF);
                 items1.getStyle().setMargin(5, 5, 0, 0);
                 items1.getStyle().setPadding(10, 10, 10, 10);
@@ -91,8 +98,12 @@ public class MesLivraisonLivreur extends Form {
                         items1.add(aa);
                     }
                 }
-
+                
+                labelContainer_user2_adresse.add(BorderLayout.CENTER, user2_adresse);
+                labelContainer_user2nom.add(BorderLayout.CENTER, user2_nom);
                 Container items2 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                items2.add(labelContainer_user2nom);
+                items2.add(labelContainer_user2_adresse);
                 items2.getStyle().setBgColor(0xFFFFFF);
                 items2.getStyle().setBgTransparency(255);
                 items2.getStyle().setMargin(5, 5, 0, 0);
@@ -129,7 +140,7 @@ public class MesLivraisonLivreur extends Form {
                 terminerButton.addActionListener(e -> {
                     sl.terminerLivraison(livraison.getId_livraison());
                 });
-                
+
                 Button map = new Button("Map");
                 map.addActionListener(e -> {
                     new MapForm();

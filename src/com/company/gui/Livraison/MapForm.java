@@ -21,8 +21,11 @@ import com.codename1.ui.Form;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.plaf.Style;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -45,6 +48,20 @@ public class MapForm {
         s.setFgColor(0xff0000);
         s.setBgTransparency(0);
         FontImage markerImg = FontImage.createMaterial(FontImage.MATERIAL_PLACE, s, Display.getInstance().convertToPixels(3));
+
+        Coord coordinates = getCoordinatesForAddress("1600 Amphitheatre Parkway, Mountain View, CA");
+        System.out.println(coordinates + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        if (coordinates != null) {
+            cnt.addMarker(
+                    EncodedImage.createFromImage(markerImg, false),
+                    coordinates,
+                    "My Marker",
+                    "",
+                    e3 -> {
+                        ToastBar.showMessage("You clicked " + cnt.getName(), FontImage.MATERIAL_PLACE);
+                    }
+            );
+        }
 
         cnt.addTapListener(e -> {
 
@@ -87,6 +104,29 @@ public class MapForm {
         f.show();
         //f.getToolbar().addCommandToRightBar("back", null, (ev)->{ new AjoutReclamationForm(f).show()});
 
+    }
+
+    public Coord getCoordinatesForAddress(String address) {
+        ConnectionRequest request = new ConnectionRequest();
+        request.setPost(false);
+        request.setUrl("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCy-fMWerzvXcPCV0FDI07hW2DAzs_mnpY");
+        NetworkManager.getInstance().addToQueueAndWait(request);
+
+        JSONParser parser = new JSONParser();
+        try {
+            Map<String, Object> response = parser.parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
+            List<Map<String, Object>> results = (List<Map<String, Object>>) response.get("results");
+            if (results != null && !results.isEmpty()) {
+                Map<String, Object> geometry = (Map<String, Object>) results.get(0).get("geometry");
+                Map<String, Object> location = (Map<String, Object>) geometry.get("location");
+                double latitude = Double.parseDouble(location.get("lat").toString());
+                double longitude = Double.parseDouble(location.get("lng").toString());
+                return new Coord(latitude, longitude);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }
