@@ -520,18 +520,19 @@ public class ItemsList extends Form {
                         List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                         for (Map<String, Object> item : itemss) {
 
-                            Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("views")).intValue(), ((Double) item.get("dislikes")).intValue(), (String) item.get("username"));
+                            Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue(), (String) item.get("username"));
                             items.add(itemx);
 
                         }
 
                         removeAll();
-                        
+
                         for (Item i : items) {
                             addItem(i);
                         }
                         show();
-showBack();
+                        showBack();
+                        refreshTheme();
                     }
 
                 };
@@ -824,7 +825,7 @@ showBack();
                     List<Map<String, Object>> itemss = (List<Map<String, Object>>) response.get("items");
                     for (Map<String, Object> item : itemss) {
 
-                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("views")).intValue(), ((Double) item.get("dislikes")).intValue(), (String) item.get("username"));
+                        Item itemx = new Item(((Double) item.get("id")).intValue(), (String) item.get("libelle"), (String) item.get("description"), Item.type.valueOf((String) item.get("type")), Item.state.valueOf((String) item.get("etat")), (String) item.get("imageurl"), ((Double) item.get("id_user")).intValue(), ((Double) item.get("id_categorie")).intValue(), 0, ((Double) item.get("likes")).intValue(), ((Double) item.get("dislikes")).intValue(), ((Double) item.get("views")).intValue(), (String) item.get("username"));
                         items.add(itemx);
 
                     }
