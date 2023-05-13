@@ -91,18 +91,17 @@ public class ArticleListForm extends Form {
                     Log.p("ONE ARTICLE : "+article.toString());
                     articles.add(article);
                 }
-              TextField searchField = new TextField();
-        Button searchButton = new Button("Search");
-        searchButton.addActionListener(e -> {
+            TextField searchField = new TextField();
+            Button searchButton = new Button("Search");
+            searchButton.addActionListener(e -> {
             String query = searchField.getText().toLowerCase();
-           List<Article> filteredArticles = new ArrayList<>();
+            List<Article> filteredArticles = new ArrayList<>();
             for (Article article : articles) {
                 if (article.getTitre().toLowerCase().contains(query)) {
                     filteredArticles.add(article);
                 }
             }
             createArticleButtons(filteredArticles);
-
         });
 
         // Add the search components to the form
@@ -211,7 +210,6 @@ public class ArticleListForm extends Form {
                    add(cnt);
                    articleButtons.add(mb);
                }
-
                // Refresh the UI theme
                refreshTheme();
            }
@@ -266,7 +264,6 @@ public class ArticleListForm extends Form {
         // Send the request asynchronously
         connectionRequest.setHttpMethod("GET");
         NetworkManager.getInstance().addToQueue(connectionRequest);
-
     }
     
 }
