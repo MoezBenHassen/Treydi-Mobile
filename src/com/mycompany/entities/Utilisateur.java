@@ -1,6 +1,8 @@
 package com.mycompany.entities;
 
 import com.mycompany.utils.Roles;
+import javafx.scene.image.Image;
+
 
 public class Utilisateur {
     
@@ -83,6 +85,12 @@ public class Utilisateur {
     public Utilisateur(String email, String password, String role) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+
+    public Utilisateur(int id, String nom, String prenom, String adresse, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
 
     public int getArchived() {

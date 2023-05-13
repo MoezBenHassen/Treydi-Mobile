@@ -1,35 +1,39 @@
 package com.mycompany.entities;
 
 public class Item {
-    private int id_item ;
-    private String libelle ;
-    private String description ;
+
+    private int id_item;
+    private String libelle;
+    private String description;
 
     public enum type {
         Physique,
         Virtuelle,
         Service
     }
+
     public enum state {
         Neuf,
         Occasion,
         Null
     }
-    private type type ;
-    private state etat ;
+    private type type;
+    private state etat;
 
-    private String imageurl ;
-    private int id_user ;
+    private String imageurl;
+    private int id_user;
 
-    private int id_categorie ;
+    private int id_categorie;
 
-    private int id_echange ;
+    private int id_echange;
 
-    private int likes ;
+    private int likes;
 
-    private int dislikes ;
-    
-    private int views ;
+    private int dislikes;
+
+    private int views;
+
+    private String username;
 
     public Item() {
     }
@@ -44,10 +48,8 @@ public class Item {
         this.id_categorie = id_categorie;
         this.id_echange = id_echange;
     }
-    
-    
 
-    public Item(int id_item, String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange, int likes, int dislikes,int views) {
+    public Item(int id_item, String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange, int likes, int dislikes, int views, String username) {
         this.id_item = id_item;
         this.libelle = libelle;
         this.description = description;
@@ -60,9 +62,10 @@ public class Item {
         this.likes = likes;
         this.dislikes = dislikes;
         this.views = views;
+        this.username = username;
     }
 
-    public Item(String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange,int likes,int dislikes,int views) {
+    public Item(String libelle, String description, Item.type type, state etat, String imageurl, int id_user, int id_categorie, int id_echange, int likes, int dislikes, int views, String username) {
         this.libelle = libelle;
         this.description = description;
         this.type = type;
@@ -74,6 +77,7 @@ public class Item {
         this.likes = likes;
         this.dislikes = dislikes;
         this.views = views;
+        this.username = username;
     }
 
     public int getLikes() {
@@ -115,8 +119,8 @@ public class Item {
     public void setId_item(int id_item) {
         this.id_item = id_item;
     }
-    
-        public int getViews() {
+
+    public int getViews() {
         return views;
     }
 
@@ -130,6 +134,14 @@ public class Item {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDescription() {
@@ -174,18 +186,18 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id_item=" + id_item +
-                ", libelle='" + libelle + '\'' +
-                ", description='" + description + '\'' +
-                ", type=" + type +
-                ", etat=" + etat +
-                ", imageurl='" + imageurl + '\'' +
-                ", id_user=" + id_user +
-                ", id_categorie=" + id_categorie +
-                ", id_echange=" + id_echange +
-                ", likes=" + likes +
-                ", dislikes=" + dislikes +
-                '}';
+        return "Item{"
+                + "id_item=" + id_item
+                + ", libelle='" + libelle + '\''
+                + ", description='" + description + '\''
+                + ", type=" + type
+                + ", etat=" + etat
+                + ", imageurl='" + imageurl + '\''
+                + ", id_user=" + id_user
+                + ", id_categorie=" + id_categorie
+                + ", id_echange=" + id_echange
+                + ", likes=" + likes
+                + ", dislikes=" + dislikes
+                + '}';
     }
 }
