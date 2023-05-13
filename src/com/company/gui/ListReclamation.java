@@ -9,7 +9,10 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.TextArea;
+import com.codename1.ui.events.ActionEvent;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
+
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -19,6 +22,7 @@ import com.mycompany.services.ServiceReclamation;
 import java.util.ArrayList;
 import com.company.gui.UpdateReclamationForm;
 import com.mycompany.entities.Reponse;
+import com.mycompany.services.PdfReclamation;
 import com.mycompany.services.ServiceReponse;
 
 
@@ -31,9 +35,23 @@ import com.mycompany.services.ServiceReponse;
         getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, ev -> {
             previous.showBack();
         });
-       ArrayList<Reclamation> list = new ServiceReclamation().getInstance().affichageReclamations();
+        ArrayList<Reclamation> list = new ServiceReclamation().getInstance().affichageReclamations();
+        
+        Container centerContainer = new Container(new BorderLayout());
+        Button pdf_btn = new Button("Génerer un PDF de les Reclamations");
+        centerContainer.addComponent(BorderLayout.CENTER, pdf_btn);
+        add(centerContainer);
+        
+        
+        
+        PdfReclamation pf = new PdfReclamation();
+        pdf_btn.addActionListener((ActionListener) (ActionEvent evt1) -> {
+            pf.generatePdfReclamation(list);
 
-        for(Reclamation rec : list ) {
+        });
+        
+        
+        for (Reclamation rec : list ) {
        
              int id = rec.getId_reclamation();
         Button repondreButton = new Button("Reponse");
@@ -92,6 +110,7 @@ import com.mycompany.services.ServiceReponse;
         
         add(card);
     }
+       
     }
 }
 

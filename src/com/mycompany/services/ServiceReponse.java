@@ -95,7 +95,45 @@ public class ServiceReponse {
         
         
     }
-    
+        public boolean Avissatisfait(int id){
+
+    String url = Statics.BASE_URL + "/reponse/avism";
+    req.setUrl(url);
+    req.setPost(true);
+    req.addArgument("id", String.valueOf(id));
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOk = req.getResponseCode() == 200;  
+            req.removeResponseListener(this);
+        }
+    });
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOk; 
+
+}
+
+   public boolean AvisNonatisfait(int id){
+
+    String url = Statics.BASE_URL + "/reponse/avismnon";
+    req.setUrl(url);
+    req.setPost(true);
+    req.addArgument("id", String.valueOf(id));
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOk = req.getResponseCode() == 200;  
+            req.removeResponseListener(this);
+        }
+    });
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOk; 
+
+}
+
+
     
     
     

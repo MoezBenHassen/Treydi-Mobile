@@ -3,37 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/company/gui/CouponsList.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/entities/Utilisateur.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/CouponService.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/entities/Coupon.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/utils/Statics.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/entities/Item.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/build.xml</file>
-            <file>jar:file:/C:/Users/admin/Desktop/Treydi-Mobile/lib/CodenameOne_SRC.zip!/com/codename1/ui/Form.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/QRCODE.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/myapp/MyApplication.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/company/gui/Menu.java</file>
-
-
-            <file>file:/C:/Users/MSI/Desktop/treydiMobile/src/com/company/gui/ListReclamation.java</file>
-            <file>file:/C:/Users/MSI/Desktop/treydiMobile/src/com/mycompany/entities/Reclamation.java</file>
-            <file>file:/C:/Users/MSI/Desktop/treydiMobile/src/com/mycompany/services/ServiceReclamation.java</file>
-
-
-            <file>file:/C:/Users/ahmed/Desktop/Treydi-Mobile/src/com/mycompany/services/ServiceUtilisateur.java</file>
-            <file>file:/C:/Users/ahmed/Desktop/Treydi-Mobile/src/com/mycompany/utils/Statics.java</file>
-            <file>file:/C:/Users/ahmed/Desktop/Treydi-Mobile/src/com/company/gui/SignInForm.java</file>
-            <file>file:/C:/Users/ahmed/Desktop/Treydi-Mobile/src/com/company/gui/SignUpForm.java</file>
-            <file>file:/C:/Users/ahmed/Desktop/Treydi-Mobile/src/com/company/gui/SessionManager.java</file>
-            <file>file:/F:/Treydi-Mobile/src/com/company/gui/Article/ArticleDetailsForm.java</file>
-            <file>file:/F:/Treydi-Mobile/src/com/mycompany/entities/Article.java</file>
-            <file>file:/F:/Treydi-Mobile/src/com/mycompany/services/ArticleService.java</file>
-            <file>file:/F:/Treydi-Mobile/src/com/mycompany/dao/ArticleDao.java</file>
-            <file>file:/F:/Treydi-Mobile/src/com/company/gui/ItemsList.java</file>
-            <file>file:/F:/Treydi-Mobile/src/com/company/gui/Article/ArticleListForm.java</file>
-
-        </group>
+        <group/>
     </open-files>
 </project-private>
