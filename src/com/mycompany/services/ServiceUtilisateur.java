@@ -8,14 +8,17 @@ package com.mycompany.services;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
+import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.ComboBox;
 import com.mycompany.utils.Statics;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.TextField;
+import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.util.Resources;
 import com.company.gui.Menu;
 import com.company.gui.SessionManager;
+import com.mycompany.entities.Utilisateur;
 
 import java.util.Map;
 import java.util.Vector;
@@ -30,8 +33,9 @@ public class ServiceUtilisateur {
   //singleton 
     public static ServiceUtilisateur instance = null ;
     
-    public static boolean resultOk = true;
+    public static boolean resultOK = true;
     String json;
+    
 
     //initilisation connection request 
     private ConnectionRequest req;
@@ -119,7 +123,7 @@ public class ServiceUtilisateur {
                 //Session 
                 float id = Float.parseFloat(user.get("id").toString());
                
-                SessionManager.setId((int)id);//jibt id ta3 user ly3ml login w sajltha fi session ta3i
+                SessionManager.setId((int)id);
                 
                 SessionManager.setPassword(user.get("password").toString());
                 SessionManager.setEmail(user.get("email").toString());
@@ -216,5 +220,35 @@ public class ServiceUtilisateur {
         NetworkManager.getInstance().addToQueueAndWait(req);
     return json;
     }
+
+    public boolean modifierUser( int id ,String nom, String prenom, String adresse, String password) {
+    String url = Statics.BASE_URL + "/updateUserm";
+    req.setUrl(url);
+    req.setPost(true);
+    
+    id = SessionManager.getId();
+    
+    req.addArgument("id", String.valueOf(id));
+    req.addArgument("nom", nom);
+    req.addArgument("prenom", prenom);
+    req.addArgument("adresse", adresse);
+    req.addArgument("password", password);
+    
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+        @Override
+        public void actionPerformed(NetworkEvent evt) {
+            resultOK = req.getResponseCode() == 200;  
+            req.removeResponseListener(this);
+        }
+    });
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return resultOK; 
+}
+
+
+
+    
+
 
 }

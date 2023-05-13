@@ -4,10 +4,9 @@ package com.company.gui;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
-import com.codename1.ui.TextField;
-
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
@@ -87,4 +86,5 @@ public class SignUpForm extends Form {
             new SignInForm(res).show();
         });
     }
+    
 }

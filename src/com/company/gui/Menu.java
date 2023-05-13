@@ -39,6 +39,10 @@ private Resources theme;
         getToolbar().addCommandToSideMenu("Articles", null, ev -> { new ItemsList(this).show(); } );
         getToolbar().addCommandToSideMenu("Reclamations", null, ev -> { new ItemsList(this).show(); } );
         
+        getToolbar().addCommandToSideMenu("Edit Profile", null, ev -> { new EditProfile(this).show(); });
+        getToolbar().addCommandToSideMenu("Profile", null, ev -> { new Profile(this).show(); });
+
+        
         ArticleDao articleDao = new ArticleDao();
         ArticleService articleService = new ArticleService();
         
