@@ -141,6 +141,7 @@ public String affecterCouponCasual () {
                 jsonp = new JSONParser();
                 
                 try {
+                    
                     Map<String,Object>mapCoupons = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
                     System.out.println(mapCoupons);
                     
@@ -229,5 +230,7 @@ public String affecterCouponCasual () {
     }
     
     }
+
+        
 
         

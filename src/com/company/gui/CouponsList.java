@@ -48,6 +48,7 @@ public class CouponsList extends Form {
     setLayout(new BoxLayout(BoxLayout.Y_AXIS));
     
     Label scoreLabel = new Label("Votre score est: " + SessionManager.getScore());
+    scoreLabel.getAllStyles().setFgColor(0x000000);
 
 
     Button CM = new Button("Coupon Mensuel");
@@ -164,8 +165,7 @@ add(centerContainer);
 });
 
       
-      CouponService cs= new CouponService();
-
+    CouponService cs= new CouponService();
     CM.addActionListener((ActionListener) (ActionEvent evt1) -> {
     String code= cs.affecterCouponCasual();
     if(code!=null){
@@ -177,9 +177,9 @@ add(centerContainer);
     
 });
 
+    pdf_btn.addActionListener((ActionListener) (ActionEvent evt1) -> {
     ArrayList<Coupon> coupons = cs.MyCoupons();
     PDF pf= new PDF();
-    pdf_btn.addActionListener((ActionListener) (ActionEvent evt1) -> {
     pf.generatePdfFromItems(coupons);    
     
     

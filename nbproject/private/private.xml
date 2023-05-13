@@ -6,15 +6,9 @@
         <group>
             <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/company/gui/CouponsList.java</file>
             <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/PDF.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/company/gui/SessionManager.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/company/gui/SignUpForm.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/utils/Statics.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/entities/Utilisateur.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/ServiceUtilisateur.java</file>
             <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/CouponService.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/build.xml</file>
             <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/QRCODE.java</file>
-            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/entities/Trader.java</file>
+            <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/services/ServiceEchange.java</file>
             <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/mycompany/myapp/MyApplication.java</file>
             <file>file:/C:/Users/admin/Desktop/Treydi-Mobile/src/com/company/gui/Menu.java</file>
         </group>
